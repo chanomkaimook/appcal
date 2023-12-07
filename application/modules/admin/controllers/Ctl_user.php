@@ -19,6 +19,19 @@ class Ctl_user extends MY_Controller
         // $this->load->model('mdl_register');
         // $this->load->model('mdl_staff');
 
+        $this->middleware(
+            array(
+                'access'    => [
+                    // 'index'     => ['bill','quotation'],
+                    // 'view'      => ['bill.view','bill.insert']
+                ],
+                'need'       => ['administrator'],
+                'except'    => [
+                    'get_user'      => [],
+                ]
+            )
+        );
+
         $this->load->library('Permit');
 
         // set language
@@ -179,10 +192,12 @@ class Ctl_user extends MY_Controller
             }
         }
 
-        $data->PERMIT = $permit_all;
-        $data->PERMIT_HTML = html_roles_jstree($permit_all);
-        $data->ROLES = $array_roles_child;
-        $data->PERMIT_NOROLE = $array_permit_only;
+        if($data){
+            $data->PERMIT = $permit_all;
+            $data->PERMIT_HTML = html_roles_jstree($permit_all);
+            $data->ROLES = $array_roles_child;
+            $data->PERMIT_NOROLE = $array_permit_only;
+        }
 
         $result = $data;
         echo json_encode($result);
