@@ -264,7 +264,7 @@ class MY_Controller extends CI_Controller
 
 	public function is_alive_in()
 	{
-		$this->load->helper('My_permit');
+		$this->load->helper('permit');
 		$result = check_userlive();
 
 		if ($result == false) {
