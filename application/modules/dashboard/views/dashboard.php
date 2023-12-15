@@ -1,2 +1,3 @@
 <div class="content">
+Dashboard
 </div>

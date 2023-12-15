@@ -73,7 +73,7 @@ class Ctl_roles extends MY_Controller
      */
     public function get_dataTable()
     {
-        $this->load->helper('my_date');
+
 
         $request = $_REQUEST;
 

@@ -77,7 +77,7 @@ class Ctl_user extends MY_Controller
 
     public function fetch_data()
     {
-        $this->load->helper('my_date');
+
 
 
         if ($item_id = $this->input->get('id')) {

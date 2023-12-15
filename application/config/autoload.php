@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('Template','database' , 'session', 'caching');
+$autoload['libraries'] = array('Template','database' , 'session', 'caching','rabbit-orm/Rabbitorm');
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +89,10 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url','form','html','text','log','sql','date','device','valid','permit');
+$autoload['helper'] = array(
+    'url','form','html','text','log','sql',
+    'device','valid','permit','date',
+);
 
 /*
 | -------------------------------------------------------------------

@@ -58,9 +58,9 @@ class Ctl_login extends MY_Controller
 
         } 
    
-
+        
         if ($this->session->userdata('user_code')) {
-            // User is logged in.  Do something.
+            //User is logged in.  Do something.
             //redirect(site_url('dashboard/ctl_dashboard'));
         }
 

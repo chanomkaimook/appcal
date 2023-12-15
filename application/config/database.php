@@ -75,19 +75,17 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'mysql_appcal',
 	'username' => 'root',
-	'password' => '',
-	'database' => 'db_tpanew',
-	// 'username' => 'server',
-	// 'password' => 'password',
-	// 'database' => 'database',
+	'password' => '1234',
+	'database' => 'appcal',
+	'port'     => '3306',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
 	'cache_on' => FALSE,
-	'cachedir' => '',
+	'cachedir' => 'dbcache',
 	'char_set' => 'utf8',
 	'dbcollat' => 'utf8_general_ci',
 	'swap_pre' => '',
@@ -95,5 +93,8 @@ $db['default'] = array(
 	'compress' => FALSE,
 	'stricton' => FALSE,
 	'failover' => array(),
-	'save_queries' => TRUE
+	'save_queries' => TRUE,
+	'options'   => array(
+		PDO::ATTR_CASE => PDO::CASE_LOWER,
+	),
 );

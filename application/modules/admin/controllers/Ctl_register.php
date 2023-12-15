@@ -25,8 +25,8 @@ class Ctl_register extends MY_Controller
     {
         # clear data register less
         $this->mdl_register->del_user_less();
-        
-        $this->load->helper('my_date');
+
+
         $data = $this->mdl_register->get_data_staff();
 
         $data_result = [];
@@ -49,9 +49,9 @@ class Ctl_register extends MY_Controller
         }
 
         $result = array(
-            "recordsTotal"      =>     count($data),
-            "recordsFiltered"   =>     count($data),
-            "data"              =>     $data_result
+            "recordsTotal" => count($data),
+            "recordsFiltered" => count($data),
+            "data" => $data_result
         );
 
         echo json_encode($result);
@@ -67,15 +67,15 @@ class Ctl_register extends MY_Controller
             #
             # check account already
             $sql = $this->db->from('staff')
-            ->where('username',$this->input->post('username'))
-            ->where('verify is not null',null,false)
-            ->where('status',1)
-            ->get();
+                ->where('username', $this->input->post('username'))
+                ->where('verify is not null', null, false)
+                ->where('status', 1)
+                ->get();
             $num_staff = $sql->num_rows();
-            if($num_staff){
+            if ($num_staff) {
                 $result = array(
-                    'error'     => $error,
-                    'message'      => 'username มีการใช้งานแล้ว',
+                    'error' => $error,
+                    'message' => 'username มีการใช้งานแล้ว',
                 );
                 echo json_encode($result);
 
@@ -84,7 +84,7 @@ class Ctl_register extends MY_Controller
 
             $result = array(
                 'error' => 0,
-                'message' =>  "ยืนยันสำเร็จ",
+                'message' => "ยืนยันสำเร็จ",
             );
 
             #

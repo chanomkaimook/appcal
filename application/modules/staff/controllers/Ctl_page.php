@@ -26,7 +26,7 @@ class Ctl_page extends MY_Controller
         $this->template->title($this->title);
         $this->template->build('pages/index');
     }
-    
+
     /**
      *
      * get data to datatable
@@ -42,7 +42,6 @@ class Ctl_page extends MY_Controller
      */
     public function get_dataTable()
     {
-        $this->load->helper('my_date');
 
         $request = $_REQUEST;
 
@@ -61,7 +60,7 @@ class Ctl_page extends MY_Controller
                     $user_active = "(แก้) " . whois($row->USER_UPDATE);
                 } else {
                     $query_date = $row->DATE_START;
-                    $user_active =  "";
+                    $user_active = "";
                 }
 
                 $dom_workstatus = workstatus($row->WORKSTATUS, 'status');
@@ -71,33 +70,33 @@ class Ctl_page extends MY_Controller
 
                 $sub_data['ID'] = $row->ID;
                 $sub_data['EMPLOYEE'] = array(
-                    "display"   => textShow($row->EMPLOYEE_NAME),
-                    "data"      => array(
-                        'id'    => $row->ID,
-                        'name'        => textShow($row->NAME),
-                        'lastname'    => textShow($row->LASTNAME),
-                        'email'       => textShow($row->EMAIL),
-                        'tel'         => textShow($row->TEL),
-                        'worktype'         => textShow($row->WORKTYPE_ID),
+                    "display" => textShow($row->EMPLOYEE_NAME),
+                    "data" => array(
+                        'id' => $row->ID,
+                        'name' => textShow($row->NAME),
+                        'lastname' => textShow($row->LASTNAME),
+                        'email' => textShow($row->EMAIL),
+                        'tel' => textShow($row->TEL),
+                        'worktype' => textShow($row->WORKTYPE_ID),
                     )
                 );
 
                 $sub_data['STATUS'] = array(
-                    "display"   => $dom_status,
-                    "data"   => array(
-                        'id'    => $row->STATUS,
+                    "display" => $dom_status,
+                    "data" => array(
+                        'id' => $row->STATUS,
                     ),
                 );
 
                 $sub_data['USER_ACTIVE'] = array(
-                    "display"   => $user_active,
-                    "data"   => array(
-                        'id'    => $user_active_id,
+                    "display" => $user_active,
+                    "data" => array(
+                        'id' => $user_active_id,
                     ),
                 );
 
                 $sub_data['DATE_ACTIVE'] = array(
-                    "display"   => toThaiDateTimeString($query_date, 'datetime'),
+                    "display" => toThaiDateTimeString($query_date, 'datetime'),
                     "timestamp" => date('Y-m-d H:i:s', strtotime($query_date))
                 );
 
@@ -106,9 +105,9 @@ class Ctl_page extends MY_Controller
         }
 
         $result = array(
-            "recordsTotal"      =>     count($data),
-            "recordsFiltered"   =>     $count,
-            "data"              =>     $data_result
+            "recordsTotal" => count($data),
+            "recordsFiltered" => $count,
+            "data" => $data_result
         );
 
         echo json_encode($result);
@@ -143,7 +142,7 @@ class Ctl_page extends MY_Controller
 
             $returns = $this->model->insert_data();
             echo json_encode($returns);
-        } 
+        }
     }
 
     //  *
@@ -159,7 +158,7 @@ class Ctl_page extends MY_Controller
 
             $returns = $this->model->update_data();
             echo json_encode($returns);
-        } 
+        }
     }
 
 
@@ -176,6 +175,6 @@ class Ctl_page extends MY_Controller
 
             $returns = $this->model->delete_data();
             echo json_encode($returns);
-        } 
+        }
     }
 }
