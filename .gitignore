@@ -23,4 +23,4 @@ gulpfile.js
 help_markdown.md
 guild.php
 
-connect_ce/*
+/connect_ce/
