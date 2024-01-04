@@ -22,3 +22,5 @@ gulpfile.js
 /asset/image/*
 help_markdown.md
 guild.php
+
+connect_ce/*
