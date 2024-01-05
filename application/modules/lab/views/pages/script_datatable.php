@@ -52,8 +52,8 @@
                     "width": "60px",
                     "render": function(data, type, row, meta) {
                         let code = data
-                        // let url_doc_bill = new URL(path(url_moduleControl+'/document'),domain)
-                        // url_doc_bill.searchParams.append('code',code)
+                        let url_doc_bill = new URL(path(url_moduleControl+'/document'),domain)
+                        url_doc_bill.searchParams.append('code',code)
 
                         code = `<a href=# class="text-info" data-id="${row.ID}">
                         ${data}
@@ -74,9 +74,6 @@
                 },
                 {
                     "data": "WORKSTATUS.display",
-                },
-                {
-                    "data": "STATUS.display",
                 },
                 {
                     "data": {
