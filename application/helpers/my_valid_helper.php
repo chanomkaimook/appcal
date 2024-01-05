@@ -8,7 +8,7 @@ error_reporting(E_ALL & ~E_NOTICE);
  * @param String|null $type = email
  * @return void
  */
-function check_valid(string $text = null, string $type = null)
+function check_valid(String $text = null, String $type = null)
 {
   # code...
   $result = false;
