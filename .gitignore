@@ -16,3 +16,14 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /vendor/
+/src/
+gulpfile.js
+/node_modules/
+/dist/
+/asset/image/*
+help_markdown.md
+guild.php
+
+/connect_ce/
+!application/config/config.php
+!application/config/database.php
