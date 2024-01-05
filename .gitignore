@@ -25,5 +25,3 @@ help_markdown.md
 guild.php
 
 /connect_ce/
-application/config/config.php
-application/config/database.php
