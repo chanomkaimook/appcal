@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Mdl_page extends CI_Model
+class Mdl_lab extends CI_Model
 
 {
-    private $table = "blank";
-    private $offview = "status_offview";
+    private $table = "lab";
+    private $offview = "";
     private $fildstatus = "status";
 
     public function __construct()
@@ -157,7 +157,7 @@ class Mdl_page extends CI_Model
             $array_text_error = $array_to_find;
         } else {
             $array_text_error = array(
-                'item_name'       => 'ชื่อ',
+                'name'       => 'ชื่อ',
             );
         }
 
@@ -221,8 +221,10 @@ class Mdl_page extends CI_Model
 
         $request = $_POST;
 
+        $item_code = textNull($data_insert['code']) ? $data_insert['code'] : $request['code'];
         $item_name = textNull($data_insert['name']) ? $data_insert['name'] : $request['name'];
         $array_chk_dup = array(
+            'code' => $item_code,
             'name' => $item_name,
             'status' => 1
         );
@@ -231,9 +233,22 @@ class Mdl_page extends CI_Model
             return $return;
         }
 
-        if ($return = $this->check_dup($array_chk_dup, $item_name)) {
+        $array_chk_dup1 = array(
+            'code' => $item_code,
+            'status' => 1
+        );
+        if ($return = $this->check_dup($array_chk_dup1, $item_name)) {
             return $return;
         }
+        $array_chk_dup2 = array(
+            'name' => $item_name,
+            'status' => 1
+        );
+        if ($return = $this->check_dup($array_chk_dup2, $item_name)) {
+            return $return;
+        }
+
+        $new_id = "";
 
         if ($data_insert && is_array($data_insert)) {
             $data_insert['user_starts'] = $this->userlogin;
