@@ -3,8 +3,16 @@
         let datatable = $('#datatable')
 
         let last_columntable = datatable.find('th').length - 1
-        let last_defaultSort = last_columntable - 1
+        let last_defaultSort = last_columntable - 3
+        let column_last_array = t()
 
+        function t() {
+            let r = []
+            for (var i = last_defaultSort; i <= last_columntable; i++) {
+                r.push(i)
+            }
+            return r
+        }
         //
         // get data to data table
         //
@@ -18,6 +26,8 @@
         let urlname = new URL(path(url_moduleControl + '/get_dataTable'), domain);
 
         let table = datatable.DataTable({
+            // processing: true,
+            // serverSide: true,
             scrollY: dataTableHeight(),
             scrollCollapse: false,
             autoWidth: false,
@@ -46,16 +56,27 @@
                     "targets": [2, 3, 4],
                     "className": "truncate"
                 },
+                {
+                    "targets": column_last_array,
+                    "width": "80px"
+                },
             ],
             columns: [{
                     "data": "CODE",
                     "width": "60px",
                     "render": function(data, type, row, meta) {
                         let code = data
+                        // let url_doc_bill = new URL(path(url_moduleControl+'/document'),domain)
+                        // url_doc_bill.searchParams.append('code',code)
+
+                        code = `<a href=# class="text-info" data-id="${row.ID}">
+                        ${data}
+                        </a> `
+
                         if (!code) {
                             code = ""
                         }
-                        return "<b>#" + code + "</b>"
+                        return "<b>" + code + "</b>"
                     }
                 },
                 {
@@ -63,15 +84,6 @@
                     "width": "",
                     "createdCell": function(td, cellData, rowData, row, col) {
                         $(td).css('min-width', '150px')
-                    },
-                    "render": function(data, type, row, meta) {
-
-                        let task = `${data}`
-                        if (row.CODE) {
-                            task += `<a href=# data-target="#modal_ticket" class="text-info" data-toggle="modal" data-code="${row.CODE}">#${row.CODE}</a> `
-                        }
-
-                        return task
                     }
                 },
                 {

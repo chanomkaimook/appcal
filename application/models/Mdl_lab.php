@@ -473,7 +473,7 @@ class Mdl_lab extends CI_Model
                     $sql->join('staff', $this->table . '.user_start=staff.id', 'left');
                 } */
                 if ($item_column == "date_active") {
-                    SELECT * FROM `lab` WHERE `lab`.`status` = 1 ORDER BY CASE WHEN lab.date_update is not null THEN lab.date_update ELSE lab.date_starts END DESC LIMIT 10;
+                    // SELECT * FROM `lab` WHERE `lab`.`status` = 1 ORDER BY CASE WHEN lab.date_update is not null THEN lab.date_update ELSE lab.date_starts END DESC LIMIT 10;
                     /* $sql->order_by(
                         'CASE WHEN '.$this->table.'.date_update 
                         THEN '.$this->table.'.date_update '.$request['order'][0]['dir'].'

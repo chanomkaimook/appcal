@@ -12,8 +12,8 @@ class Ctl_page extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $modelname = 'mdl_page';
-        $this->load->model(array('page/' . $modelname));
+        $modelname = 'mdl_lab';
+        $this->load->model(array($modelname));
 
         $this->middleware(
             array(
@@ -31,7 +31,7 @@ class Ctl_page extends MY_Controller
 
         // setting
         $this->model = $this->$modelname;
-        $this->title = 'Title';
+        $this->title = 'ข้อมูลห้อง Lab';
     }
 
     public function index()
@@ -58,6 +58,7 @@ class Ctl_page extends MY_Controller
         ); */
         $this->template->build('pages/index');
     }
+
     /**
      *
      * get data to datatable
@@ -73,6 +74,7 @@ class Ctl_page extends MY_Controller
      */
     public function get_dataTable()
     {
+        $this->load->helper('my_date');
 
         $request = $_REQUEST;
 
@@ -188,7 +190,13 @@ class Ctl_page extends MY_Controller
             $request = $_REQUEST;
 
             $data = array(
-                'name'        => textNull($request['name']) ? $request['name'] : null
+                'code'        => textNull($request['code']) ? $request['code'] : null,
+                'depcode'     => textNull($request['depcode']) ? $request['depcode'] : null,
+                'name'        => textNull($request['name']) ? $request['name'] : null,
+                'name_us'       => textNull($request['name_us']) ? $request['name_us'] : null,
+                'intervaltime'  => textNull($request['intervaltime']) ? $request['intervaltime'] : null,
+                'projectcode'   => textNull($request['projectcode']) ? $request['projectcode'] : null,
+                'remark'        => textNull($request['remark']) ? $request['remark'] : null
             );
 
             $returns = $this->model->insert_data($data);
@@ -207,13 +215,7 @@ class Ctl_page extends MY_Controller
         # code...
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
 
-            $request = $_REQUEST;
-            $item_id = textNull($request['name']) ? $request['name'] : null;
-            $data = array(
-                'name'        => textNull($request['name']) ? $request['name'] : null
-            );
-
-            $returns = $this->model->update_data($data, $item_id);
+            $returns = $this->model->update_data();
             echo json_encode($returns);
         }
     }

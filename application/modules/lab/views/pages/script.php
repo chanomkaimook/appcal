@@ -212,14 +212,28 @@
                     $('.btn_print').show()
 
                     $(modal_body_view)
-                        .find('.label_1').text(data.NAME).end()
+                        .find('.code').text(data.CODE).end()
+                        .find('.depcode').text(data.DEPCODE).end()
+                        .find('.name').text(data.NAME).end()
+                        .find('.name_us').text(data.NAME_US).end()
+                        .find('.intervaltime').text(data.INTERVALTIME).end()
+                        .find('.projectcode').text(data.PROJECTCODE).end()
+                        .find('.remark').text(data.REMARK).end()
+                        .find('.user').text(data.USER_ACTIVE).end()
+                        .find('.datetime').text(data.DATE_ACTIVE).end()
 
                     break
                 case 'edit':
                     $('.btn_print').hide()
 
                     $(modal_body_form)
-                        .find('[name=label_1]').val(data.WORKSTATUS).end()
+                        .find('[name=code]').val(data.CODE).end()
+                        .find('[name=depcode]').val(data.DEPCODE).end()
+                        .find('[name=name]').val(data.NAME).end()
+                        .find('[name=name_us]').val(data.NAME_US).end()
+                        .find('[name=intervaltime]').val(data.INTERVALTIME).end()
+                        .find('[name=projectcode]').val(data.PROJECTCODE).end()
+                        .find('[name=remark]').val(data.WORKSTATUS).end()
 
                     break
                 default:
@@ -395,6 +409,7 @@
         form.forEach((item, key) => {
             document.getElementsByTagName('form')[key].reset();
         })
+
         $(modal).find('.modal_text_header').html('')
     }
 
