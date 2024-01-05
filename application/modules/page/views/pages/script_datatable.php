@@ -52,17 +52,10 @@
                     "width": "60px",
                     "render": function(data, type, row, meta) {
                         let code = data
-                        // let url_doc_bill = new URL(path(url_moduleControl+'/document'),domain)
-                        // url_doc_bill.searchParams.append('code',code)
-
-                        code = `<a href=# class="text-info" data-id="${row.ID}">
-                        ${data}
-                        </a> `
-
                         if (!code) {
                             code = ""
                         }
-                        return "<b>" + code + "</b>"
+                        return "<b>#" + code + "</b>"
                     }
                 },
                 {
@@ -70,6 +63,15 @@
                     "width": "",
                     "createdCell": function(td, cellData, rowData, row, col) {
                         $(td).css('min-width', '150px')
+                    },
+                    "render": function(data, type, row, meta) {
+
+                        let task = `${data}`
+                        if (row.CODE) {
+                            task += `<a href=# data-target="#modal_ticket" class="text-info" data-toggle="modal" data-code="${row.CODE}">#${row.CODE}</a> `
+                        }
+
+                        return task
                     }
                 },
                 {

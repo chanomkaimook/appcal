@@ -36,6 +36,3 @@
 	$lang['_total'] = "จำนวน";
 	$lang['_username'] = "username";
 	$lang['_password'] = "รหัสผ่าน";
-	$lang['_remark'] = "หมายเหตุ";
-	$lang['_manby'] = "โดยล่าสุด";
-	$lang['_dateby'] = "วันล่าสุด";

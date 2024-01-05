@@ -237,9 +237,10 @@ class Mdl_lab extends CI_Model
             'code' => $item_code,
             'status' => 1
         );
-        if ($return = $this->check_dup($array_chk_dup1, $item_name)) {
+        if ($return = $this->check_dup($array_chk_dup1, $item_code)) {
             return $return;
         }
+
         $array_chk_dup2 = array(
             'name' => $item_name,
             'status' => 1
@@ -279,15 +280,16 @@ class Mdl_lab extends CI_Model
     //  * 
     //  * update data
     //  *
-    public function update_data($data_update = null,int $id=null)
+    public function update_data($data_update = null, int $id = null)
     {
         $result = false;
         $item_id = $id ? $id : textNull($this->input->post('item_id'));
 
         if ($item_id) {
             $request = $_POST;
-            
-            $item_name = textNull($data_update['name']) ? $data_update['name'] : $request['item_name'];
+
+            $item_code = textNull($data_update['code']) ? $data_update['code'] : $request['code'];
+            $item_name = textNull($data_update['name']) ? $data_update['name'] : $request['name'];
             $array_chk_dup = array(
                 'name' => $item_name,
                 'status' => 1,
@@ -297,36 +299,29 @@ class Mdl_lab extends CI_Model
             if ($return = $this->check_value_valid($array_chk_dup)) {
                 return $return;
             }
-            
+
             if ($return = $this->check_dup($array_chk_dup, $item_name)) {
                 return $return;
             }
 
+            $array_chk_dupcode = array(
+                'code' => $item_code,
+                'status' => 1,
+                'id !=' => $item_id,
+            );
+            if ($return = $this->check_dup($array_chk_dupcode, $item_name)) {
+                return $return;
+            }
+
             if ($data_update && is_array($data_update)) {
+                $data_update['date_update'] = date('Y-m-d H:i:s');
                 $data_update['user_update'] = $this->userlogin;
                 $this->db->where('id', $item_id);
                 $this->db->update($this->table, $data_update);
-            } else {
-                $item_name = textNull($this->input->post('item_name'));
 
-                $data = array(
-                    'name'          => $item_name,
-
-                    'date_update'  => date('Y-m-d H:i:s'),
-                    'user_update'  => $this->userlogin,
-                );
-
-                if ($this->offview) {
-                    $status_offview = textNull($this->input->post('status_offview'));
-                    $data['status_offview'] = $status_offview;
-                }
-
-                $this->db->where('id', $item_id);
-                $this->db->update($this->table, $data);
+                // keep log
+                log_data(array('update ' . $this->table, 'update', $this->db->last_query()));
             }
-
-            // keep log
-            log_data(array('update ' . $this->table, 'update', $this->db->last_query()));
 
             $result = array(
                 'error'     => 0,
@@ -426,12 +421,15 @@ class Mdl_lab extends CI_Model
             // $sql->where('date(' . $this->table . '.date_starts) <=', $hidden_end);
 
             $sql->where(
-                '(date(' . $this->table . '.date_starts) >= "'.$hidden_start.'" and
-                date(' . $this->table . '.date_starts) <= "'.$hidden_end.'")
+                '(date(' . $this->table . '.date_starts) >= "' . $hidden_start . '" and
+                date(' . $this->table . '.date_starts) <= "' . $hidden_end . '")
                 or 
-                (date(' . $this->table . '.date_update) >= "'.$hidden_start.'" and
-                date(' . $this->table . '.date_update) <= "'.$hidden_end.'")
-        ',null,false);
+                (date(' . $this->table . '.date_update) >= "' . $hidden_start . '" and
+                date(' . $this->table . '.date_update) <= "' . $hidden_end . '")
+        ',
+                null,
+                false
+            );
         }
 
         if ($id) {
@@ -444,21 +442,54 @@ class Mdl_lab extends CI_Model
 
         if ($optionnal['where'] && count($optionnal['where'])) {
             foreach ($optionnal['where'] as $column => $value) {
-                $sql->where($column, $value);
+                $sql->where($this->table . '.' . $column, $value);
             }
+        }
+
+        if ($request['search']['value']) {
+            $search = $request['search']['value'];
+            $sql->where('('
+                . $this->table . '.code like "%' . $search . '%"
+                or ' . $this->table . '.name like "%' . $search . '%"
+                or ' . $this->table . '.name_us like "%' . $search . '%"
+            )');
         }
 
         if ($optionnal['order_by'] && count($optionnal['order_by'])) {
             foreach ($optionnal['order_by'] as $column => $value) {
-                $sql->order_by($column, $value);
+                $sql->order_by($this->table . '.' . $column, $value);
             }
         } else {
-            $sql->order_by($this->table . '.id', 'desc');
+            $item_column = "";
+            if (is_numeric($request['order'][0]['column']) && $request['item_name']) {
+                if ($request['item_name'][$request['order'][0]['column']]) {
+
+                    $item_column = $request['item_name'][$request['order'][0]['column']];
+                }
+            }
+            if ($request['order'][0]['dir'] && $item_column) {
+                // for value_active
+                /* if ($item_column == "user_active") {
+                    $sql->join('staff', $this->table . '.user_start=staff.id', 'left');
+                } */
+                if ($item_column == "date_active") {
+                    SELECT * FROM `lab` WHERE `lab`.`status` = 1 ORDER BY CASE WHEN lab.date_update is not null THEN lab.date_update ELSE lab.date_starts END DESC LIMIT 10;
+                    /* $sql->order_by(
+                        'CASE WHEN '.$this->table.'.date_update 
+                        THEN '.$this->table.'.date_update '.$request['order'][0]['dir'].'
+                        ELSE '.$this->table.'.date_starts '.$request['order'][0]['dir']
+                    ,null,false); */
+                } else {
+                    $sql->order_by($this->table . '.' . $item_column, $request['order'][0]['dir']);
+                }
+            } else {
+                $sql->order_by($this->table . '.id', 'desc');
+            }
         }
 
         if ($optionnal['group_by'] && count($optionnal['group_by'])) {
             foreach ($optionnal['group_by'] as $column) {
-                $sql->group_by($column);
+                $sql->group_by($this->table . '.' . $column);
             }
         }
 

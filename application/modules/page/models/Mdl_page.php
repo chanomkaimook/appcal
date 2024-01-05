@@ -221,7 +221,7 @@ class Mdl_page extends CI_Model
 
         $request = $_POST;
 
-        $item_name = textNull($data_insert['name']) ? $data_insert['name'] : $request['name'];
+        $item_name = textNull($data_insert['name']) ? $data_insert['name'] : $request['item_name'];
         $array_chk_dup = array(
             'name' => $item_name,
             'status' => 1
@@ -239,6 +239,18 @@ class Mdl_page extends CI_Model
             $data_insert['user_starts'] = $this->userlogin;
             $this->db->insert($this->table, $data_insert);
             $new_id = $this->db->insert_id();
+        } else {
+
+            if ($item_name) {
+                $data = array(
+                    'name'          => $item_name,
+
+                    'user_starts'  => $this->userlogin,
+                );
+
+                $this->db->insert($this->table, $data);
+                $new_id = $this->db->insert_id();
+            }
         }
 
         if ($new_id) {

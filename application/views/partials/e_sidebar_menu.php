@@ -46,18 +46,6 @@
                         </ul>
                     </li> -->
 
-                    <li class="">
-                        <a href="javascript: void(0);">
-                            <i class="fe-file-text"></i>
-                            <span> ข้อมูลห้อง Lab </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li class=""><a href="<?= site_url('lab/ctl_page'); ?>" data-show="ข้อมูล lab">Lab</a></li>
-                            <li class=""><a href="<?= site_url('sublab/ctl_page'); ?>" data-show="ข้อมูล sublab">Sublab</a></li>
-                        </ul>
-                    </li>
-
                     <!-- Profile -->
                     <li>
                         <a href="#">

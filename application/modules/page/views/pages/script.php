@@ -104,7 +104,7 @@
         //  * 
         //  * call function view data
         //  *
-        $(d).on('click', form_button_btn_view + ",.text-info", function(e) {
+        $(d).on('click', form_button_btn_view, function(e) {
             e.preventDefault()
 
             let id = $(this).attr('data-id')
@@ -209,21 +209,16 @@
 
             switch (action) {
                 case 'view':
-                    $('.btn_print').show()
-
                     $(modal_body_view)
                         .find('.label_1').text(data.NAME).end()
 
                     break
                 case 'edit':
-                    $('.btn_print').hide()
-
                     $(modal_body_form)
                         .find('[name=label_1]').val(data.WORKSTATUS).end()
 
                     break
                 default:
-                    $('.btn_print').hide()
                     break
             }
 
@@ -377,7 +372,7 @@
         modalHide()
 
         if (reload == false) {
-            $(datatable_name).DataTable().ajax.reload(null, false)
+            $(datatable_name).DataTable().ajax.reload(null,false)
         } else {
             $(datatable_name).DataTable().ajax.reload()
         }
@@ -395,7 +390,7 @@
         form.forEach((item, key) => {
             document.getElementsByTagName('form')[key].reset();
         })
-
+        
         $(modal).find('.modal_text_header').html('')
     }
 

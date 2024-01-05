@@ -13,7 +13,7 @@ class Ctl_page extends MY_Controller
     {
         parent::__construct();
         $modelname = 'mdl_page';
-        $this->load->model(array('page/' . $modelname));
+        $this->load->model(array('page/mdl_page'));
 
         $this->middleware(
             array(
@@ -58,7 +58,7 @@ class Ctl_page extends MY_Controller
         ); */
         $this->template->build('pages/index');
     }
-
+    
     /**
      *
      * get data to datatable
@@ -86,13 +86,13 @@ class Ctl_page extends MY_Controller
             foreach ($data as $row) {
 
                 $user_active_id = $row->USER_STARTS ? $row->USER_STARTS : $row->USER_UPDATE;
-                $user_active = whois($user_active_id);
 
                 if ($row->DATE_UPDATE) {
                     $query_date = $row->DATE_UPDATE;
-                    $user_active = "(แก้) " . $user_active;
+                    $user_active = "(แก้) " . whois($row->USER_UPDATE);
                 } else {
                     $query_date = $row->DATE_STARTS;
+                    $user_active =  whois($row->USER_STARTS);
                 }
 
                 $dom_workstatus = workstatus($row->WORKSTATUS, 'status');
@@ -102,7 +102,7 @@ class Ctl_page extends MY_Controller
 
                 $sub_data['ID'] = $row->ID;
                 $sub_data['CODE'] = textShow($row->CODE);
-                $sub_data['NAME'] = textLang($row->NAME, $row->NAME_US, false);
+                $sub_data['NAME'] = textLang($row->NAME,$row->NAME_US,false);
 
                 $sub_data['WORKSTATUS'] = array(
                     "display"   => $dom_workstatus,
@@ -155,22 +155,6 @@ class Ctl_page extends MY_Controller
         $item_id = $request['id'];
         $data = $this->model->get_data($item_id);
 
-        if ($data) {
-            $user_active_id = $data->USER_STARTS ? $data->USER_STARTS : $data->USER_UPDATE;
-            $user_active = whois($user_active_id);
-
-            if ($data->DATE_UPDATE) {
-                $query_date = $data->DATE_UPDATE;
-                $user_active = "(แก้) " . $user_active;
-            } else {
-                $query_date = $data->DATE_STARTS;
-            }
-
-            $data->USER_ACTIVE_ID = $user_active_id;
-            $data->USER_ACTIVE = $user_active;
-            $data->DATE_ACTIVE = toDateTimeString($query_date, 'datetime');
-        }
-
         $result = $data;
         echo json_encode($result);
     }
@@ -186,15 +170,9 @@ class Ctl_page extends MY_Controller
         # code...
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
 
-            $request = $_REQUEST;
-
-            $data = array(
-                'name'        => textNull($request['name']) ? $request['name'] : null
-            );
-
-            $returns = $this->model->insert_data($data);
+            $returns = $this->model->insert_data();
             echo json_encode($returns);
-        }
+        } 
     }
 
     //  *
@@ -210,7 +188,7 @@ class Ctl_page extends MY_Controller
 
             $returns = $this->model->update_data();
             echo json_encode($returns);
-        }
+        } 
     }
 
 
@@ -227,6 +205,6 @@ class Ctl_page extends MY_Controller
 
             $returns = $this->model->delete_data();
             echo json_encode($returns);
-        }
+        } 
     }
 }
