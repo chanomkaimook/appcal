@@ -1,4 +1,6 @@
 <?php
+
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
@@ -98,3 +100,4 @@ $db['default'] = array(
 		PDO::ATTR_CASE => PDO::CASE_LOWER,
 	),
 );
+

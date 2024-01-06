@@ -2,7 +2,6 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mdl_staff extends CI_Model
-
 {
     private $table = "staff";
 
@@ -92,17 +91,17 @@ class Mdl_staff extends CI_Model
     {
 
         $result = array(
-            'error'     => 1,
-            'txt'       => 'ไม่มีการทำรายการ',
+            'error' => 1,
+            'txt' => 'ไม่มีการทำรายการ',
         );
 
         if (textShow($this->input->post('label_6'))) {
             $data = array(
-                'code'  => textShow($this->input->post('label_2')),
-                'name'  => textShow($this->input->post('label_6')),
-                'workstatus'  => $this->input->post('label_1'),
+                'code' => textShow($this->input->post('label_2')),
+                'name' => textShow($this->input->post('label_6')),
+                'workstatus' => $this->input->post('label_1'),
 
-                'user_starts'  => $this->session->userdata('user_code'),
+                'user_starts' => $this->session->userdata('user_code'),
             );
 
             $this->db->insert($this->table, $data);
@@ -114,11 +113,11 @@ class Mdl_staff extends CI_Model
             if ($new_id) {
 
                 $result = array(
-                    'error'     => 0,
-                    'txt'       => 'ทำรายการสำเร็จ',
-                    'data'      => array(
-                        'id'    => $new_id
-                    )
+                    'error' => 0,
+                    'txt' => 'ทำรายการสำเร็จ',
+                    'data' => array(
+                            'id' => $new_id
+                        )
                 );
             }
         }
@@ -140,23 +139,23 @@ class Mdl_staff extends CI_Model
      * @param array|null $data_staff = data where[column=>value]
      * @return void
      */
-    public function update_data(array $data_array = null,array $data_staff = null)
+    public function update_data(array $data_array = null, array $data_staff = null)
     {
         $item_id = $this->input->post('item_id');
 
-        if($data_array && is_array($data_array) && $data_staff){
+        if ($data_array && is_array($data_array) && $data_staff) {
             $this->db->update($this->table, $data_array, $data_staff);
-        }else{
+        } else {
 
             $data = array(
-                'code'  => textShow($this->input->post('label_2')),
-                'name'  => textShow($this->input->post('label_6')),
-                'workstatus'  => $this->input->post('label_1'),
-    
-                'date_update'  => date('Y-m-d H:i:s'),
-                'user_update'  => $this->session->userdata('user_code'),
+                'code' => textShow($this->input->post('label_2')),
+                'name' => textShow($this->input->post('label_6')),
+                'workstatus' => $this->input->post('label_1'),
+
+                'date_update' => date('Y-m-d H:i:s'),
+                'user_update' => $this->session->userdata('user_code'),
             );
-    
+
             $this->db->where('id', $item_id);
             $this->db->update($this->table, $data);
         }
@@ -165,11 +164,11 @@ class Mdl_staff extends CI_Model
         log_data(array('update ' . $this->table, 'update', $this->db->last_query()));
 
         $result = array(
-            'error'     => 0,
-            'txt'       => 'ทำรายการสำเร็จ',
-            'data'      => array(
-                'id'    => $item_id
-            )
+            'error' => 0,
+            'txt' => 'ทำรายการสำเร็จ',
+            'data' => array(
+                    'id' => $item_id
+                )
         );
 
         return $result;
@@ -188,7 +187,7 @@ class Mdl_staff extends CI_Model
 
         $result = array(
             'error' => 1,
-            'txt'        => 'ไม่มีการทำรายการ'
+            'txt' => 'ไม่มีการทำรายการ'
         );
 
         if (!$item_id) {
@@ -196,10 +195,10 @@ class Mdl_staff extends CI_Model
         }
 
         $data_array = array(
-            'status'      => 0,
+            'status' => 0,
 
-            'date_update'  => date('Y-m-d H:i:s'),
-            'user_update'  => $this->session->userdata('user_code'),
+            'date_update' => date('Y-m-d H:i:s'),
+            'user_update' => $this->session->userdata('user_code'),
         );
 
         if ($item_remark) {
@@ -212,8 +211,8 @@ class Mdl_staff extends CI_Model
         log_data(array('delete ' . $this->table, 'update', $this->db->last_query()));
 
         $result = array(
-            'error'     => 0,
-            'txt'       => 'ทำรายการสำเร็จ'
+            'error' => 0,
+            'txt' => 'ทำรายการสำเร็จ'
         );
 
         return $result;
@@ -247,8 +246,8 @@ class Mdl_staff extends CI_Model
 
         $sql = $this->db->from($this->table)
             ->join('employee', $this->table . '.employee_id=employee.id', 'left')
-            ->where('employee.id >',0);
-        
+            ->where('employee.id >', 0);
+
         if (textShow($request['hidden_datestart'])) {
             $hidden_start = textShow($request['hidden_datestart']);
         }

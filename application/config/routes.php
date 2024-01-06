@@ -75,3 +75,10 @@ $route['api/v1/test']['get']                                = 'api/auth/index';
 
 // #ดูข้อมูลติดตามสถานะ traking ใบขอรับบริการ จาก ID
 // $route['api/v1/bill/tracking/(:any)']['get'] = 'api/bill/tracking/$1';
+
+
+/**
+ * Module API Routes
+ */
+require_once FCPATH . 'application/modules/api/routes/v1/index.php';
+require_once FCPATH . 'application/modules/api/routes/v2/index.php';

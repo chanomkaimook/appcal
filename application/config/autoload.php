@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('Template','database' , 'session', 'caching','rabbit-orm/Rabbitorm');
+$autoload['libraries'] = array('Template', 'database', 'session', 'caching', 'Authorization_Token', 'permit');
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url','form','My_text','My_log','My_permit','My_sql','My_html','My_date','My_device','My_valid');
+$autoload['helper'] = array('url', 'form', 'My_text', 'My_log', 'My_permit', 'My_sql', 'My_html', 'My_date', 'My_device', 'My_valid');
 
 /*
 | -------------------------------------------------------------------

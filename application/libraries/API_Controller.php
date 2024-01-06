@@ -56,13 +56,13 @@ class API_Controller extends CI_Controller
      * HTTP status codes and their respective description
      */
     public const HEADER_STATUS_STRINGS = [
-      '405' => 'HTTP/1.1 405 Method Not Allowed',
-      '400' => 'BAD REQUEST',
-      '408' => 'Request Timeout',
-      '404' => 'NOT FOUND',
-      '401' => 'UNAUTHORIZED',
-      '200' => 'OK',
-      '422' => 'Unprocessable Entity',
+        '405' => 'HTTP/1.1 405 Method Not Allowed',
+        '400' => 'BAD REQUEST',
+        '408' => 'Request Timeout',
+        '404' => 'NOT FOUND',
+        '401' => 'UNAUTHORIZED',
+        '200' => 'OK',
+        '422' => 'Unprocessable Entity',
     ];
 
     /**
@@ -93,7 +93,7 @@ class API_Controller extends CI_Controller
 
         // Load Config Items Values
         $this->API_LIMIT_TABLE_NAME = $this->CI->config->item('api_limit_table_name');
-        $this->API_KEYS_TABLE_NAME  = $this->CI->config->item('api_keys_table_name');
+        $this->API_KEYS_TABLE_NAME = $this->CI->config->item('api_keys_table_name');
     }
 
 
@@ -197,10 +197,10 @@ class API_Controller extends CI_Controller
 
         if ($limit_type == 'ip') {
             $where_data_ip = [
-              'uri' => $this->CI->uri->uri_string(),
-              'class' => $this->CI->router->fetch_class(),
-              'method' => $this->CI->router->fetch_method(),
-              'ip_address' => $this->CI->input->ip_address(),
+                'uri' => $this->CI->uri->uri_string(),
+                'class' => $this->CI->router->fetch_class(),
+                'method' => $this->CI->router->fetch_method(),
+                'ip_address' => $this->CI->input->ip_address(),
             ];
 
             $limit_query = $this->CI->db->get_where($this->API_LIMIT_TABLE_NAME, $where_data_ip);
@@ -213,11 +213,11 @@ class API_Controller extends CI_Controller
                         // echo Date('d/m/Y h:i A', $times);
 
                         $where_data_ip_with_time = [
-                          'uri' => $this->CI->uri->uri_string(),
-                          'class' => $this->CI->router->fetch_class(),
-                          'method' => $this->CI->router->fetch_method(),
-                          'ip_address' => $this->CI->input->ip_address(),
-                          'time >=' => $limit_timestamp
+                            'uri' => $this->CI->uri->uri_string(),
+                            'class' => $this->CI->router->fetch_class(),
+                            'method' => $this->CI->router->fetch_method(),
+                            'ip_address' => $this->CI->input->ip_address(),
+                            'time >=' => $limit_timestamp
                         ];
 
                         $time_limit_query = $this->CI->db->get_where($this->API_LIMIT_TABLE_NAME, $where_data_ip_with_time);
@@ -243,12 +243,12 @@ class API_Controller extends CI_Controller
                         $end_date_timestamp = strtotime($end_date);
 
                         $where_data_ip_with_time = [
-                          'uri' => $this->CI->uri->uri_string(),
-                          'class' => $this->CI->router->fetch_class(),
-                          'method' => $this->CI->router->fetch_method(),
-                          'ip_address' => $this->CI->input->ip_address(),
-                          'time >=' => $start_date_timestamp,
-                          'time <=' => $end_date_timestamp,
+                            'uri' => $this->CI->uri->uri_string(),
+                            'class' => $this->CI->router->fetch_class(),
+                            'method' => $this->CI->router->fetch_method(),
+                            'ip_address' => $this->CI->input->ip_address(),
+                            'time >=' => $start_date_timestamp,
+                            'time <=' => $end_date_timestamp,
                         ];
 
                         $time_limit_query = $this->CI->db->get_where($this->API_LIMIT_TABLE_NAME, $where_data_ip_with_time);
@@ -280,11 +280,11 @@ class API_Controller extends CI_Controller
         $this->CI->load->helper('api_helper');
 
         $insert_data = [
-          'uri' => $this->CI->uri->uri_string(),
-          'class' => $this->CI->router->fetch_class(),
-          'method' => $this->CI->router->fetch_method(),
-          'ip_address' => $this->CI->input->ip_address(),
-          'time' => time(),
+            'uri' => $this->CI->uri->uri_string(),
+            'class' => $this->CI->router->fetch_class(),
+            'method' => $this->CI->router->fetch_method(),
+            'ip_address' => $this->CI->input->ip_address(),
+            'time' => time(),
         ];
 
         insert($this->API_LIMIT_TABLE_NAME, $insert_data);
@@ -311,7 +311,7 @@ class API_Controller extends CI_Controller
         if (strtolower($api_key_type) == 'header') {
             $api_key_header_name = $this->config->item('api_key_header_name');
 
-      // check api key header name in request headers
+            // check api key header name in request headers
             $is_header = $this->exists_header($api_key_header_name); // return status and header value
             if (isset($is_header['status']) === true) {
                 $HEADER_VALUE = trim($is_header['value']);
@@ -332,8 +332,8 @@ class API_Controller extends CI_Controller
                     }
 
                     $where_key_data = [
-                      'controller' => $this->CI->router->fetch_class(),
-                      'api_key' => $HEADER_VALUE,
+                        'controller' => $this->CI->router->fetch_class(),
+                        'api_key' => $HEADER_VALUE,
                     ];
 
                     $limit_query = $this->CI->db->get_where($this->API_KEYS_TABLE_NAME, $where_key_data);
@@ -374,8 +374,8 @@ class API_Controller extends CI_Controller
                     }
 
                     $where_key_data = [
-                      'controller' => $this->CI->router->fetch_class(),
-                      'api_key' => $get_param_value,
+                        'controller' => $this->CI->router->fetch_class(),
+                        'api_key' => $get_param_value,
                     ];
 
                     $limit_query = $this->CI->db->get_where($this->API_KEYS_TABLE_NAME, $where_key_data);
@@ -416,8 +416,8 @@ class API_Controller extends CI_Controller
                     }
 
                     $where_key_data = [
-                      'controller' => $this->CI->router->fetch_class(),
-                      'api_key' => $get_param_value,
+                        'controller' => $this->CI->router->fetch_class(),
+                        'api_key' => $get_param_value,
                     ];
 
                     $limit_query = $this->CI->db->get_where($this->API_KEYS_TABLE_NAME, $where_key_data);
@@ -439,10 +439,11 @@ class API_Controller extends CI_Controller
     private function _isAuthorized()
     {
         // Load Authorization Library
-        $this->CI->load->library('authorization');
+        $this->CI->load->library('authorization_token');
 
         // check token is valid
-        $result = $this->authorization->validateToken();
+        $result = $this->authorization_token->validateToken();
+        //print_r($result);exit();
 
         if (isset($result['status']) and $result['status'] === true) {
             return $result['data'];
@@ -493,12 +494,12 @@ class API_Controller extends CI_Controller
 
         // echo 'PHP version: ' . floatval(phpversion());
 
-        if(phpversion() < 7.4){
+        if (phpversion() < 7.4) {
             http_response_code($http_code);
-        }else{
+        } else {
             header(self::HEADER_STATUS_STRINGS[$http_code], true, $http_code);
         }
-        
+
         // 
         print_r(json_encode($data));
         ob_end_flush();

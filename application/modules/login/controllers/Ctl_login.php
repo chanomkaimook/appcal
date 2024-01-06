@@ -24,27 +24,29 @@ class Ctl_login extends MY_Controller
         $this->load->view('login', $data);
     }
 
-    public function test() {
+    public function test()
+    {
         var_dump($this->caching->get('foo'));
-        echo 'Show cache! ='.$this->caching->get('foo');
+        echo 'Show cache! =' . $this->caching->get('foo');
     }
 
-    public function test_update() {
+    public function test_update()
+    {
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
         if (!$foo = $this->cache->get('foo')) {
             echo 'Create cache!<br />';
-            
+
             $foo = "i'have create cache";
             // Save into the cache for 5 minutes
             $this->cache->save('foo', $foo, 10);
-        }else{
-            echo 'update cache! from '.$foo;
-            
+        } else {
+            echo 'update cache! from ' . $foo;
+
             $foo = "i'have been change the cache!!!!!";
             $this->cache->save('foo', $foo, 10);
         }
 
-        echo "<br> result cache = ".$foo;
+        echo "<br> result cache = " . $foo;
     }
 
     /**
@@ -67,12 +69,12 @@ class Ctl_login extends MY_Controller
                         'user_code' => $result['data']->ID,
                         'user_emp' => $result['data']->EMPLOYEE_ID,
                         'user_name' => $result['data']->NAME . " " . $result['data']->LASTNAME,
-                        'department'    => $result['data']->DEPARTMENT,
+                        'department' => $result['data']->DEPARTMENT,
                         'department_id' => $result['data']->DEPARTMENT_ID,
-                        'section'       => $result['data']->SECTION,
-                        'section_id'    => $result['data']->SECTION_ID,
+                        'section' => $result['data']->SECTION,
+                        'section_id' => $result['data']->SECTION_ID,
 
-                        'authorization'         => $result['token'],
+                        'authorization' => $result['token'],
                     );
                     $this->session->set_userdata($session);
 

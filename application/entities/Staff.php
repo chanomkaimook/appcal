@@ -2,9 +2,9 @@
 
 
  class Staff extends RabbitORM\Model {
-    const StaffDefinition = '{"name": "staff", "table": "staff"}';
+    const staffDefinition = '{"name": "Staff", "table": "staff"}';
     private $ID; 
-    const idDefinition = '{"name": "id", "id":"id"}';
+    const idStaffDefinition = '{"name": "id", "column":"ID", primaryKey: "true" }';
     private $EMPLOYEE_ID; 
     private $USERNAME; 
     private $PASSWORD; 
@@ -21,9 +21,9 @@
     // private $ID; 
     // private $ID; 
 
-    // public function __construct()
-    // {
-    //     parent::__construct();
-    // }
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
 }
