@@ -469,18 +469,19 @@ class Mdl_lab extends CI_Model
             }
             if ($request['order'][0]['dir'] && $item_column) {
                 // for value_active
-                /* if ($item_column == "user_active") {
-                    $sql->join('staff', $this->table . '.user_start=staff.id', 'left');
-                } */
-                if ($item_column == "date_active") {
-                    // SELECT * FROM `lab` WHERE `lab`.`status` = 1 ORDER BY CASE WHEN lab.date_update is not null THEN lab.date_update ELSE lab.date_starts END DESC LIMIT 10;
-                    /* $sql->order_by(
-                        'CASE WHEN '.$this->table.'.date_update 
-                        THEN '.$this->table.'.date_update '.$request['order'][0]['dir'].'
-                        ELSE '.$this->table.'.date_starts '.$request['order'][0]['dir']
-                    ,null,false); */
-                } else {
+                if ($item_column == "user_active") {
+                    $sql->join('staff', $this->table . '.user_starts=staff.id', 'left');
                     $sql->order_by($this->table . '.' . $item_column, $request['order'][0]['dir']);
+                }
+                if ($item_column == "date_active") {
+                    $sql->order_by(
+                        'CASE WHEN ' . $this->table . '.date_update is not null
+                        THEN ' . $this->table . '.date_update
+                        ELSE ' . $this->table . '.date_starts
+                        END ' . $request['order'][0]['dir'],
+                        null,
+                        false
+                    );
                 }
             } else {
                 $sql->order_by($this->table . '.id', 'desc');

@@ -202,8 +202,8 @@
     //  *
     function modalActive(data = [], action = 'view') {
         if (data) {
-            if (action != 'add' && data.NAME) {
-                let header = data.NAME
+            if (action != 'add' && data.CODE) {
+                let header = data.CODE
                 $(modal).find('.modal_text_header').html(header)
             }
 

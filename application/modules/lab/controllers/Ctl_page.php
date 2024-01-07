@@ -215,7 +215,19 @@ class Ctl_page extends MY_Controller
         # code...
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
 
-            $returns = $this->model->update_data();
+            $request = $_REQUEST;
+            $item_id = textNull($request['item_id']) ? $request['item_id'] : null;
+            $data = array(
+                'code'        => textNull($request['code']) ? $request['code'] : null,
+                'depcode'     => textNull($request['depcode']) ? $request['depcode'] : null,
+                'name'        => textNull($request['name']) ? $request['name'] : null,
+                'name_us'       => textNull($request['name_us']) ? $request['name_us'] : null,
+                'intervaltime'  => textNull($request['intervaltime']) ? $request['intervaltime'] : null,
+                'projectcode'   => textNull($request['projectcode']) ? $request['projectcode'] : null,
+                'remark'        => textNull($request['remark']) ? $request['remark'] : null
+            );
+
+            $returns = $this->model->update_data($data, $item_id);
             echo json_encode($returns);
         }
     }
