@@ -23,11 +23,25 @@
         // # datatable_dom     = form e_navbar.php
         // # datatable_button  = form e_navbar.php
         //
+        // # if open server side should be set paramiter
+        // data for set column name from table
+        // e.g.
+        /* data: dataFillterFunc([{
+            name: 'column',
+            value: {
+                0: 'code',
+                1: 'name',
+                2: 'workstatus',
+                3: 'status_offview',
+                4: 'user_active', // find staff to do
+                5: 'date_active' // find date time to do
+            }
+        }, ]) */
         let urlname = new URL(path(url_moduleControl + '/get_dataTable'), domain);
 
         let table = datatable.DataTable({
             // processing: true,
-            // serverSide: true,
+            serverSide: true,
             scrollY: dataTableHeight(),
             scrollCollapse: false,
             autoWidth: false,
@@ -40,7 +54,17 @@
                 url: urlname,
                 type: 'get',
                 dataType: 'json',
-                data: dataFillterFunc()
+                data: dataFillterFunc([{
+                    name: 'column',
+                    value: {
+                        0: 'code',
+                        1: 'name',
+                        2: 'workstatus',
+                        3: 'status_offview',
+                        4: 'user_active', // find staff to do
+                        5: 'date_active' // find date time to do
+                    }
+                }, ])
             },
             order: [],
             columnDefs: [{

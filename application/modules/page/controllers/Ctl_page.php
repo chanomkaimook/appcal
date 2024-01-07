@@ -94,7 +94,7 @@ class Ctl_page extends MY_Controller
                     $query_date = $row->DATE_STARTS;
                 }
 
-                $dom_workstatus = workstatus($row->WORKSTATUS, 'status');
+                $dom_workstatus = workstatus($row->WORKSTATUS);
                 $dom_status = status_offview($row->STATUS_OFFVIEW);
 
                 $sub_data = [];
