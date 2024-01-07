@@ -31,7 +31,7 @@ class Ctl_page extends MY_Controller
 
         // setting
         $this->model = $this->$modelname;
-        $this->title = 'ข้อมูลห้อง Lab';
+        $this->title = mb_ucfirst($this->lang->line('__menu_lab'));
     }
 
     public function index()
@@ -91,7 +91,7 @@ class Ctl_page extends MY_Controller
 
                 if ($row->DATE_UPDATE) {
                     $query_date = $row->DATE_UPDATE;
-                    $user_active = "(แก้) " . $user_active;
+                    $user_active = $this->lang->line('_text_edit') . " " . $user_active;
                 } else {
                     $query_date = $row->DATE_STARTS;
                 }
@@ -104,13 +104,7 @@ class Ctl_page extends MY_Controller
                 $sub_data['ID'] = $row->ID;
                 $sub_data['CODE'] = textShow($row->CODE);
                 $sub_data['NAME'] = textLang($row->NAME, $row->NAME_US, false);
-
-                $sub_data['WORKSTATUS'] = array(
-                    "display"   => $dom_workstatus,
-                    "data"      =>  array(
-                        'id'    => $row->WORKSTATUS,
-                    ),
-                );
+                $sub_data['PROJECTCODE'] = textShow($row->PROJECTCODE);
 
                 $sub_data['STATUS'] = array(
                     "display"   => $dom_status,
@@ -127,7 +121,7 @@ class Ctl_page extends MY_Controller
                 );
 
                 $sub_data['DATE_ACTIVE'] = array(
-                    "display"   => toDateTimeString($query_date, 'datetime'),
+                    "display"   => toDateTimeString($query_date, 'datetimehm'),
                     "timestamp" => date('Y-m-d H:i:s', strtotime($query_date))
                 );
 
@@ -157,23 +151,45 @@ class Ctl_page extends MY_Controller
         $data = $this->model->get_data($item_id);
 
         if ($data) {
-            $user_active_id = $data->USER_STARTS ? $data->USER_STARTS : $data->USER_UPDATE;
-            $user_active = whois($user_active_id);
+            if (is_array($data)) {
+                $data_foreach = [];
+                foreach ($data as $key => $row) {
+                    $data_foreach[$key] = $this->previewData($row);
+                }
 
-            if ($data->DATE_UPDATE) {
-                $query_date = $data->DATE_UPDATE;
-                $user_active = "(แก้) " . $user_active;
+                $data = $data_foreach;
             } else {
-                $query_date = $data->DATE_STARTS;
+                $data = $this->previewData($data);
             }
-
-            $data->USER_ACTIVE_ID = $user_active_id;
-            $data->USER_ACTIVE = $user_active;
-            $data->DATE_ACTIVE = toDateTimeString($query_date, 'datetime');
         }
 
         $result = $data;
         echo json_encode($result);
+    }
+    
+    function previewData($datas)
+    {
+        $result = "";
+
+        if ($datas) {
+            $user_active_id = $datas->USER_STARTS ? $datas->USER_STARTS : $datas->USER_UPDATE;
+            $user_active = whois($user_active_id);
+
+            if ($datas->DATE_UPDATE) {
+                $query_date = $datas->DATE_UPDATE;
+                $user_active = $this->lang->line('_text_edit') . " " . $user_active;
+            } else {
+                $query_date = $datas->DATE_STARTS;
+            }
+
+            $datas->USER_ACTIVE_ID = $user_active_id;
+            $datas->USER_ACTIVE = $user_active;
+            $datas->DATE_ACTIVE = toDateTimeString($query_date, 'datetimehm');
+
+            $result = $datas;
+        }
+
+        return $result;
     }
 
     //  *

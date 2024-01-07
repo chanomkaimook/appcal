@@ -15,11 +15,11 @@ function status_offview(int $status = null, array $optional = ['html' => true])
 
   # code...
 
-  $text = 'ปกติ';
+  $text = textLang("ปกติ","On");
   $result = '<span class="text-success">' . $text . '</span>';
 
   if ($status == 1) {
-    $text = 'ซ่อน';
+    $text = textLang("ซ่อน","Hide");
     $result = '<span class="text-warning">' . $text . '</span>';
   }
 

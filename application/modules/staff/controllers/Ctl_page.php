@@ -17,7 +17,7 @@ class Ctl_page extends MY_Controller
 
         // setting
         $this->model = $this->$modelname;
-        $this->title = 'รายชื่อพนักงาน';
+        $this->title = mb_ucfirst($this->lang->line('__menu_employee'));
     }
 
     public function index()
@@ -54,13 +54,13 @@ class Ctl_page extends MY_Controller
             foreach ($data as $row) {
 
                 $user_active_id = $row->USER_STARTS ? $row->USER_STARTS : $row->USER_UPDATE;
+                $user_active = whois($user_active_id);
 
                 if ($row->DATE_UPDATE) {
                     $query_date = $row->DATE_UPDATE;
-                    $user_active = "(แก้) " . whois($row->USER_UPDATE);
+                    $user_active = $this->lang->line('_text_edit') . " " . $user_active;
                 } else {
-                    $query_date = $row->DATE_START;
-                    $user_active = "";
+                    $query_date = $row->DATE_STARTS;
                 }
 
                 $dom_workstatus = workstatus($row->WORKSTATUS, 'status');
@@ -96,7 +96,7 @@ class Ctl_page extends MY_Controller
                 );
 
                 $sub_data['DATE_ACTIVE'] = array(
-                    "display" => toThaiDateTimeString($query_date, 'datetime'),
+                    "display" => toDateTimeString($query_date, 'datetimehm'),
                     "timestamp" => date('Y-m-d H:i:s', strtotime($query_date))
                 );
 

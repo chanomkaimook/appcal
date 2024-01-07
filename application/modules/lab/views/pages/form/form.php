@@ -23,7 +23,7 @@
 <div class="row">
     <div class="form-group col-6">
         <label class="text-capitalize">interval time</label>
-        <input type="text" class="form-control" name="intervaltime" placeholder="ระบุ" value="">
+        <input type="text" class="form-control int_only" name="intervaltime" placeholder="ระบุ" value="">
     </div>
     <div class="form-group col-6">
         <label class="text-capitalize">project code</label>

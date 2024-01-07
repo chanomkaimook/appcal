@@ -77,7 +77,7 @@
                     targets: last_columntable
                 },
                 {
-                    "targets": [2, 3, 4],
+                    "targets": [0, 1],
                     "className": "truncate"
                 },
                 {
@@ -93,9 +93,9 @@
                         // let url_doc_bill = new URL(path(url_moduleControl+'/document'),domain)
                         // url_doc_bill.searchParams.append('code',code)
 
-                        code = `<a href=# class="text-info" data-id="${row.ID}">
+                        code = `<div class="w-100 text-info" data-id="${row.ID}" role="button">
                         ${data}
-                        </a> `
+                        </div>`
 
                         if (!code) {
                             code = ""

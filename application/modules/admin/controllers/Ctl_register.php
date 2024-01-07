@@ -17,7 +17,7 @@ class Ctl_register extends MY_Controller
     {
 
         $this->template->set_layout('lay_datatable');
-        $this->template->title('ลงทะเบียน');
+        $this->template->title(mb_ucfirst($this->lang->line('__menu_register')));
         $this->template->build('register');
     }
 
@@ -41,7 +41,7 @@ class Ctl_register extends MY_Controller
                 $sub_data['LASTNAME'] = $row->LASTNAME;
                 $sub_data['USERNAME'] = $row->USERNAME;
                 $sub_data['DATE_START'] = $row->DATE_START;
-                $sub_data['DATE_START_TEXT'] = toThaiDateTimeString($row->DATE_START, 'datetime');
+                $sub_data['DATE_START_TEXT'] = toDateTimeString($row->DATE_START, 'datetimehm');
                 $sub_data['VERIFY'] = $row->VERIFY;
 
                 $data_result[] = $sub_data;

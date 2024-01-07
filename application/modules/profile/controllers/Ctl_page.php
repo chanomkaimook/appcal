@@ -35,7 +35,7 @@ class Ctl_page extends MY_Controller
 
         // setting
         $this->model = $this->$modelname;
-        $this->title = $this->lang->line('__menu_profile');
+        $this->title = mb_ucfirst($this->lang->line('__menu_profile'));
     }
 
     public function index()
@@ -96,13 +96,13 @@ class Ctl_page extends MY_Controller
             foreach ($data as $row) {
 
                 $user_active_id = $row->USER_STARTS ? $row->USER_STARTS : $row->USER_UPDATE;
+                $user_active = whois($user_active_id);
 
                 if ($row->DATE_UPDATE) {
                     $query_date = $row->DATE_UPDATE;
-                    $user_active = "(แก้) " . whois($row->USER_UPDATE);
+                    $user_active = $this->lang->line('_text_edit') . " " . $user_active;
                 } else {
                     $query_date = $row->DATE_STARTS;
-                    $user_active =  whois($row->USER_STARTS);
                 }
 
                 $dom_workstatus = workstatus($row->WORKSTATUS, 'status');

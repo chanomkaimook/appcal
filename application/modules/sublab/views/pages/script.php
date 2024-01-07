@@ -88,7 +88,12 @@
                             timer: swal_autoClose,
                         }).then((result) => {
 
-                            dataReload()
+                            if (item_id) {
+                                // no reload page
+                                dataReload(false)
+                            } else {
+                                dataReload()
+                            }
 
                         })
                     }
@@ -202,8 +207,11 @@
     //  *
     function modalActive(data = [], action = 'view') {
         if (data) {
-            if (action != 'add' && data.CODE) {
-                let header = data.CODE
+
+            clear_dataStandby()
+
+            if (action != 'add' && data.NAME) {
+                let header = data.NAME
                 $(modal).find('.modal_text_header').html(header)
             }
 
@@ -213,12 +221,18 @@
 
                     $(modal_body_view)
                         .find('.code').text(data.CODE).end()
-                        .find('.depcode').text(data.DEPCODE).end()
+                        .find('.lab').text(data.LAB_NAME).end()
                         .find('.name').text(data.NAME).end()
                         .find('.name_us').text(data.NAME_US).end()
                         .find('.intervaltime').text(data.INTERVALTIME).end()
                         .find('.projectcode').text(data.PROJECTCODE).end()
-                        .find('.remark').text(data.REMARK).end()
+
+                        .find('.ambienttempmin').text(data.AMBIENTTEMPMIN).end()
+                        .find('.ambienttempmax').text(data.AMBIENTTEMPMAX).end()
+                        .find('.relativehumditymin').text(data.RELATIVEHUMDITYMIN).end()
+                        .find('.relativehumditymax').text(data.RELATIVEHUMDITYMAX).end()
+                        .find('.atmosphericmin').text(data.ATMOSPHERICMIN).end()
+                        .find('.atmosphericmax').text(data.ATMOSPHERICMAX).end()
                         .find('.user').text(data.USER_ACTIVE).end()
                         .find('.datetime').text(data.DATE_ACTIVE).end()
 
@@ -226,18 +240,39 @@
                 case 'edit':
                     $('.btn_print').hide()
 
-                    $(modal_body_form)
-                        .find('[name=code]').val(data.CODE).end()
-                        .find('[name=depcode]').val(data.DEPCODE).end()
-                        .find('[name=name]').val(data.NAME).end()
-                        .find('[name=name_us]').val(data.NAME_US).end()
-                        .find('[name=intervaltime]').val(data.INTERVALTIME).end()
-                        .find('[name=projectcode]').val(data.PROJECTCODE).end()
-                        .find('[name=remark]').val(data.REMARK).end()
+                    setdata(data)
+                    async function setdata(data) {
+                        try {
+                            await get_dataStanby()
+                            await new Promise((resolve, reject) => {
+                                resolve(
+                                    $(modal_body_form)
+                                    .find('[name=code]').val(data.CODE).end()
+                                    .find('[name=lab_id]').val(data.LAB_ID).end()
+                                    .find('[name=name]').val(data.NAME).end()
+                                    .find('[name=name_us]').val(data.NAME_US).end()
+                                    .find('[name=intervaltime]').val(data.INTERVALTIME).end()
+                                    .find('[name=projectcode]').val(data.PROJECTCODE).end()
+
+                                    .find('[name=ambienttempmin]').val(data.AMBIENTTEMPMIN).end()
+                                    .find('[name=ambienttempmax]').val(data.AMBIENTTEMPMAX).end()
+                                    .find('[name=relativehumditymin]').val(data.RELATIVEHUMDITYMIN).end()
+                                    .find('[name=relativehumditymax]').val(data.RELATIVEHUMDITYMAX).end()
+                                    .find('[name=atmosphericmin]').val(data.ATMOSPHERICMIN).end()
+                                    .find('[name=atmosphericmax]').val(data.ATMOSPHERICMAX).end()
+                                )
+                            })
+                        } catch (error) {
+                            console.error('Error:', error);
+                        }
+                    }
 
                     break
                 default:
                     $('.btn_print').hide()
+
+                    get_dataStanby()
+
                     break
             }
 
@@ -245,6 +280,29 @@
 
             modalLayout(action)
         }
+    }
+
+    function get_dataStanby() {
+        let url = new URL(path('lab/ctl_page/get_data'), domain)
+        return fetch(url)
+            .then(res => res.json())
+            .then((resp) => {
+                $(modal_body_form)
+                    .find('[name=lab_id]').html(() => {
+                        let r = `<option value="" disabled selected>ระบุ</option>`
+                        if (resp) {
+                            resp.map(function(item, index) {
+                                r += `<option value="${item.ID}">${item.CODE}</option>`
+                            })
+                        }
+                        return r
+                    }).end()
+            })
+    }
+
+    function clear_dataStandby() {
+        $(modal_body_form)
+            .find('[name=lab_id]').html('')
     }
 
     //  *
@@ -341,8 +399,8 @@
     //  *
     function delete_data(item_id) {
         Swal.fire(
-                swal_setConfirmInput()
-                // swal_setConfirm()
+                // swal_setConfirmInput()
+                swal_setConfirm()
             )
             .then((result) => {
                 if (result.value && result.value !== true) {
@@ -411,7 +469,6 @@
         form.forEach((item, key) => {
             document.getElementsByTagName('form')[key].reset();
         })
-
         $(modal).find('.modal_text_header').html('')
     }
 
