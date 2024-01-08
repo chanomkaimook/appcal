@@ -50,7 +50,20 @@
              }
 
              [role=button] {
-                cursor:pointer
+                 cursor: pointer
+             }
+
+             .text-truncate-row-2 {
+                 -webkit-line-clamp: 3;
+                 display: -webkit-box;
+                 -webkit-box-orient: vertical;
+                 overflow: hidden;
+             }
+             .text-truncate-row-3 {
+                 -webkit-line-clamp: 3;
+                 display: -webkit-box;
+                 -webkit-box-orient: vertical;
+                 overflow: hidden;
              }
          </style>
 
