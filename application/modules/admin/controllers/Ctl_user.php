@@ -174,8 +174,8 @@ class Ctl_user extends MY_Controller
         // $data_role_focus = $this->mdl_role_focus->get_data();
 
         $item_id = $user_permit['roles_id_list'];
-
         $array_permit = $this->roles->get_dataRolesJS($item_id, null, "result_array");
+
         $array_roles_child = $this->roles->get_dataRolesGroup($item_id, null, "result_array");
 
 
@@ -192,7 +192,7 @@ class Ctl_user extends MY_Controller
             }
         }
 
-        if($data){
+        if ($data) {
             $data->PERMIT = $permit_all;
             $data->PERMIT_HTML = html_roles_jstree($permit_all);
             $data->ROLES = $array_roles_child;

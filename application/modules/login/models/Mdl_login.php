@@ -17,25 +17,19 @@ class mdl_login extends CI_Model
             $user_password = md5(trim($this->input->post('user_password')));
 
             $sql = $this->db->select('
-                employee.ID as EMPLOYEE_ID,
-                employee.NAME as NAME,
-                employee.LASTNAME as LASTNAME,
-                employee.DEPARTMENT as DEPARTMENT,
-                employee.SECTION as SECTION,
+ 
 
                 staff.ID as ID,
                 staff.USERNAME as USERNAME,
-                staff.DATE_STARTS as DATE_STARTS,
-                section.ID as SECTION_ID,
-                department.ID as DEPARTMENT_ID,
+                staff.DATE_STARTS as DATE_STARTS
             ')
-                ->join('employee', 'staff.employee_id = employee.id', 'left')
-                ->join('section', 'section.name = employee.section', 'left')
-                ->join('department', 'department.name = employee.department', 'left')
+                // ->join('employee', 'staff.employee_id = employee.id', 'left')
+                // ->join('section', 'section.name = employee.section', 'left')
+                // ->join('department', 'department.name = employee.department', 'left')
                 ->where('staff.username', $user_name)
                 ->where('staff.password', $user_password)
                 ->where('staff.verify is not null', null, false)
-                ->where('staff.status in(1,6,7,8,9)',null,false)
+                ->where('staff.status in(1,6,7,8,9)', null, false)
                 ->get('staff');
             $number = $sql->num_rows();  //num_rows() นับจำนวนแถว
 
@@ -54,7 +48,7 @@ class mdl_login extends CI_Model
                     //
                     // create array permit
                     $array_permit = $this->permit->get_dataPermitSet($staff_id);
-// print_r($array_permit);exit;
+                    // print_r($array_permit);exit;
                     $permit = "";
 
                     if ($array_permit) {

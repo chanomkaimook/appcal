@@ -1,7 +1,7 @@
 <?php
 
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -77,9 +77,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'mysql_appcal',
+	'hostname' => 'mysql',
 	'username' => 'root',
-	'password' => '1234',
+	'password' => 'root',
 	'database' => 'appcal',
 	'port'     => '3306',
 	'dbdriver' => 'mysqli',
@@ -95,9 +95,7 @@ $db['default'] = array(
 	'compress' => FALSE,
 	'stricton' => FALSE,
 	'failover' => array(),
-	'save_queries' => TRUE,
 	'options'   => array(
 		PDO::ATTR_CASE => PDO::CASE_LOWER,
 	),
 );
-
