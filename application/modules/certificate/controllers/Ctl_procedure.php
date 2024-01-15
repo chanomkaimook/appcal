@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // require APPPATH . '/libraries/API_Controller.php';
 
-class Ctl_page extends MY_Controller
+class Ctl_procedure extends MY_Controller
 {
 
     private $model;
@@ -12,8 +12,8 @@ class Ctl_page extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $modelname = 'mdl_sublab';
-        $this->load->model(array($modelname));
+        $modelname = 'mdl_procedure';
+        $this->load->model(array('certificate/' . $modelname));
 
         $this->middleware(
             array(
@@ -31,7 +31,7 @@ class Ctl_page extends MY_Controller
 
         // setting
         $this->model = $this->$modelname;
-        $this->title = mb_ucfirst($this->lang->line('__menu_sublab'));
+        $this->title = mb_ucfirst($this->lang->line('__menu_title'));
     }
 
     public function index()
@@ -76,7 +76,7 @@ class Ctl_page extends MY_Controller
 
         $request = $_REQUEST;
 
-        $data = $this->model->get_dataShowJoninLab();
+        $data = $this->model->get_dataShow();
         $count = $this->model->get_data_all();
 
         $data_result = [];
@@ -102,12 +102,11 @@ class Ctl_page extends MY_Controller
                 $sub_data['id'] = $row->id;
                 $sub_data['code'] = textShow($row->code);
                 $sub_data['name'] = textLang($row->name, $row->name_us, false);
-                $sub_data['projectcode'] = textShow($row->projectcode);
 
-                $sub_data['lab'] = array(
-                    "display"   => textLang($row->lab_name, $row->lab_us, false),
-                    "data"   => array(
-                        'id'    => $row->lab_id,
+                $sub_data['workstatus'] = array(
+                    "display"   => $dom_workstatus,
+                    "data"      =>  array(
+                        'id'    => $row->workstatus,
                     ),
                 );
 
@@ -153,7 +152,7 @@ class Ctl_page extends MY_Controller
     {
         $request = $_REQUEST;
         $item_id = $request['id'];
-        $data = $this->model->get_dataShowJoninLab($item_id);
+        $data = $this->model->get_data($item_id);
 
         if ($data) {
             if (is_array($data)) {
@@ -191,8 +190,6 @@ class Ctl_page extends MY_Controller
             $datas->user_active = $user_active;
             $datas->date_active = toDateTimeString($query_date, 'datetimehm');
 
-            $datas->lab_name = textLang($datas->lab_name, $datas->lab_us, false);
-
             $result = $datas;
         }
 
@@ -213,20 +210,7 @@ class Ctl_page extends MY_Controller
             $request = $_REQUEST;
 
             $data = array(
-                'code'        => textNull($request['code']) ? $request['code'] : null,
-                'lab_id'     => textNull($request['lab_id']) ? $request['lab_id'] : null,
-                'name'        => textNull($request['name']) ? $request['name'] : null,
-                'name_us'       => textNull($request['name_us']) ? $request['name_us'] : null,
-
-                'ambienttempmin'       => textNull($request['ambienttempmin']) ? $request['ambienttempmin'] : null,
-                'ambienttempmax'       => textNull($request['ambienttempmax']) ? $request['ambienttempmax'] : null,
-                'relativehumditymin'   => textNull($request['relativehumditymin']) ? $request['relativehumditymin'] : null,
-                'relativehumditymax'   => textNull($request['relativehumditymax']) ? $request['relativehumditymax'] : null,
-                'atmosphericmin'        => textNull($request['atmosphericmin']) ? $request['atmosphericmin'] : null,
-                'atmosphericmax'        => textNull($request['atmosphericmax']) ? $request['atmosphericmax'] : null,
-
-                'intervaltime'  => textNull($request['intervaltime']) ? $request['intervaltime'] : null,
-                'projectcode'   => textNull($request['projectcode']) ? $request['projectcode'] : null,
+                'name'        => textNull($request['name']) ? $request['name'] : null
             );
 
             $returns = $this->model->insert_data($data);
@@ -248,20 +232,7 @@ class Ctl_page extends MY_Controller
             $request = $_REQUEST;
             $item_id = textNull($request['item_id']) ? $request['item_id'] : null;
             $data = array(
-                'code'        => textNull($request['code']) ? $request['code'] : null,
-                'lab_id'     => textNull($request['lab_id']) ? $request['lab_id'] : null,
-                'name'        => textNull($request['name']) ? $request['name'] : null,
-                'name_us'       => textNull($request['name_us']) ? $request['name_us'] : null,
-
-                'ambienttempmin'       => textNull($request['ambienttempmin']) ? $request['ambienttempmin'] : null,
-                'ambienttempmax'       => textNull($request['ambienttempmax']) ? $request['ambienttempmax'] : null,
-                'relativehumditymin'   => textNull($request['relativehumditymin']) ? $request['relativehumditymin'] : null,
-                'relativehumditymax'   => textNull($request['relativehumditymax']) ? $request['relativehumditymax'] : null,
-                'atmosphericmin'        => textNull($request['atmosphericmin']) ? $request['atmosphericmin'] : null,
-                'atmosphericmax'        => textNull($request['atmosphericmax']) ? $request['atmosphericmax'] : null,
-
-                'intervaltime'  => textNull($request['intervaltime']) ? $request['intervaltime'] : null,
-                'projectcode'   => textNull($request['projectcode']) ? $request['projectcode'] : null,
+                'name'        => textNull($request['name']) ? $request['name'] : null
             );
 
             $returns = $this->model->update_data($data, $item_id);

@@ -86,41 +86,41 @@ class Ctl_page extends MY_Controller
         if ($data) {
             foreach ($data as $row) {
 
-                $user_active_id = $row->USER_STARTS ? $row->USER_STARTS : $row->USER_UPDATE;
+                $user_active_id = $row->user_starts ? $row->user_starts : $row->user_update;
                 $user_active = whois($user_active_id);
 
-                if ($row->DATE_UPDATE) {
-                    $query_date = $row->DATE_UPDATE;
+                if ($row->date_update) {
+                    $query_date = $row->date_update;
                     $user_active = $this->lang->line('_text_edit') . " " . $user_active;
                 } else {
-                    $query_date = $row->DATE_STARTS;
+                    $query_date = $row->date_starts;
                 }
 
-                $dom_workstatus = workstatus($row->WORKSTATUS, 'status');
-                $dom_status = status_offview($row->STATUS_OFFVIEW);
+                $dom_workstatus = workstatus($row->workstatus, 'status');
+                $dom_status = status_offview($row->status_offview);
 
                 $sub_data = [];
 
-                $sub_data['ID'] = $row->ID;
-                $sub_data['CODE'] = textShow($row->CODE);
-                $sub_data['NAME'] = textLang($row->NAME, $row->NAME_US, false);
-                $sub_data['PROJECTCODE'] = textShow($row->PROJECTCODE);
+                $sub_data['id'] = $row->id;
+                $sub_data['code'] = textShow($row->code);
+                $sub_data['name'] = textLang($row->name, $row->name_us, false);
+                $sub_data['projectcode'] = textShow($row->projectcode);
 
-                $sub_data['STATUS'] = array(
+                $sub_data['status'] = array(
                     "display"   => $dom_status,
                     "data"   => array(
-                        'id'    => $row->STATUS_OFFVIEW,
+                        'id'    => $row->status_offview,
                     ),
                 );
 
-                $sub_data['USER_ACTIVE'] = array(
+                $sub_data['user_active'] = array(
                     "display"   => $user_active,
                     "data"   => array(
                         'id'    => $user_active_id,
                     ),
                 );
 
-                $sub_data['DATE_ACTIVE'] = array(
+                $sub_data['date_active'] = array(
                     "display"   => toDateTimeString($query_date, 'datetimehm'),
                     "timestamp" => date('Y-m-d H:i:s', strtotime($query_date))
                 );
@@ -172,19 +172,19 @@ class Ctl_page extends MY_Controller
         $result = "";
 
         if ($datas) {
-            $user_active_id = $datas->USER_STARTS ? $datas->USER_STARTS : $datas->USER_UPDATE;
+            $user_active_id = $datas->user_starts ? $datas->user_starts : $datas->user_update;
             $user_active = whois($user_active_id);
 
-            if ($datas->DATE_UPDATE) {
-                $query_date = $datas->DATE_UPDATE;
+            if ($datas->date_update) {
+                $query_date = $datas->date_update;
                 $user_active = $this->lang->line('_text_edit') . " " . $user_active;
             } else {
-                $query_date = $datas->DATE_STARTS;
+                $query_date = $datas->date_starts;
             }
 
-            $datas->USER_ACTIVE_ID = $user_active_id;
-            $datas->USER_ACTIVE = $user_active;
-            $datas->DATE_ACTIVE = toDateTimeString($query_date, 'datetimehm');
+            $datas->user_active_id = $user_active_id;
+            $datas->user_active = $user_active;
+            $datas->date_active = toDateTimeString($query_date, 'datetimehm');
 
             $result = $datas;
         }

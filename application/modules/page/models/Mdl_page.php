@@ -483,10 +483,10 @@ class Mdl_page extends CI_Model
                     }
 
                     $sql->order_by(
-                        'CASE WHEN employee.' . $item_column . ' is not null
-                        THEN employee.' . $item_column . '
-                        ELSE employee.name
-                        END ' . $request['order'][0]['dir'],
+                        'case when employee.' . $item_column . ' is not null
+                        then employee.' . $item_column . '
+                        else employee.name
+                        end ' . $request['order'][0]['dir'],
                         null,
                         false
                     );
@@ -495,10 +495,10 @@ class Mdl_page extends CI_Model
                 }
                 if ($item_column == "date_active") {
                     $sql->order_by(
-                        'CASE WHEN ' . $this->table . '.date_update is not null
-                        THEN ' . $this->table . '.date_update
-                        ELSE ' . $this->table . '.date_starts
-                        END ' . $request['order'][0]['dir'],
+                        'case when ' . $this->table . '.date_update is not null
+                        then ' . $this->table . '.date_update
+                        else ' . $this->table . '.date_starts
+                        end ' . $request['order'][0]['dir'],
                         null,
                         false
                     );

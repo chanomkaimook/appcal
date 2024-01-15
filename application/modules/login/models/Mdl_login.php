@@ -17,17 +17,17 @@ class mdl_login extends CI_Model
             $user_password = md5(trim($this->input->post('user_password')));
 
             $sql = $this->db->select('
-                employee.ID as EMPLOYEE_ID,
-                employee.NAME as NAME,
-                employee.LASTNAME as LASTNAME,
-                employee.DEPARTMENT as DEPARTMENT,
-                employee.SECTION as SECTION,
+                employee.id as employee_id,
+                employee.name as name,
+                employee.lastname as lastname,
+                employee.department as department,
+                employee.section as section,
 
-                staff.ID as ID,
-                staff.USERNAME as USERNAME,
-                staff.DATE_STARTS as DATE_STARTS,
-                section.ID as SECTION_ID,
-                department.ID as DEPARTMENT_ID,
+                staff.id as id,
+                staff.username as username,
+                staff.date_starts as date_starts,
+                section.id as section_id,
+                department.id as department_id,
             ')
                 ->join('employee', 'staff.employee_id = employee.id', 'left')
                 ->join('section', 'section.name = employee.section', 'left')
@@ -42,9 +42,9 @@ class mdl_login extends CI_Model
             if ($number == 1) {
                 $row = $sql->row();
 
-                $staff_id = $row->ID;
+                $staff_id = $row->id;
 
-                if (strnatcmp($user_name, $row->USERNAME) == 0) {
+                if (strnatcmp($user_name, $row->username) == 0) {
 
                     //
                     // update status to normal (1)
@@ -54,7 +54,7 @@ class mdl_login extends CI_Model
                     //
                     // create array permit
                     $array_permit = $this->permit->get_dataPermitSet($staff_id);
-// print_r($array_permit);exit;
+                    // print_r($array_permit);exit;
                     $permit = "";
 
                     if ($array_permit) {

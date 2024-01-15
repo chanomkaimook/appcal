@@ -244,13 +244,13 @@
                         let js_checkbox
                         let js_id
                         
-                        if (resp.PERMIT) {
+                        if (resp.permit) {
 
-                            $.each(resp.PERMIT, function(index, item) {
+                            $.each(resp.permit, function(index, item) {
                                 item.map(function(permit) {
 
                                     js_checkbox = $(modal_body_form)
-                                        .find('.jstree-grid-container li[aria-level=2][data-id=' + permit.PERMIT_ID + ']')
+                                        .find('.jstree-grid-container li[aria-level=2][data-id=' + permit.permit_id + ']')
                                     js_id = js_checkbox.attr('id')
 
                                     js_checkbox.jstree("deselect_node", "#" + js_id)
@@ -294,7 +294,7 @@
                 .then(res => res.json())
                 .then(resp => {
 
-                    create_html_checkjstree(resp.PERMIT, 1)
+                    create_html_checkjstree(resp.permit, 1)
 
                 })
         } else {
@@ -315,20 +315,20 @@
     //  * @data = array[key=>[column=>value]]
     //  *
     function modalActive(data = [], action = 'view') {
-        if (action != 'add' && data.NAME) {
-            let header = data.NAME
+        if (action != 'add' && data.name) {
+            let header = data.name
             $(modal).find('.modal_text_header').html(header)
         }
 
         switch (action) {
             case 'view':
                 $(modal_body_view)
-                    .find('.roles_name_th').text(data.NAME).end()
-                    .find('.roles_name_us').text(data.NAME_US).end()
-                    .find('.roles_descrip_th').text(data.DESCRIPTION).end()
-                    .find('.roles_descrip_us').text(data.DESCRIPTION_US).end()
-                    .find('.roles_code').text(data.CODE).end()
-                    .find('.jstree-grid-container').html(data.PERMIT_HTML).end()
+                    .find('.roles_name_th').text(data.name).end()
+                    .find('.roles_name_us').text(data.name_us).end()
+                    .find('.roles_descrip_th').text(data.description).end()
+                    .find('.roles_descrip_us').text(data.description_us).end()
+                    .find('.roles_code').text(data.code).end()
+                    .find('.jstree-grid-container').html(data.permit_html).end()
 
                 // create role
                 create_html_select2()
@@ -339,8 +339,8 @@
                     let data_array_html = ""
                     await new Promise((resolve, reject) => {
                         resolve(
-                            data.ROLES.map(function(item) {
-                                data_array_html += create_html_roles(textCapitalize(item.ROLES_CODE))
+                            data.roles.map(function(item) {
+                                data_array_html += create_html_roles(textCapitalize(item.roles_code))
                             })
                         )
 
@@ -354,18 +354,18 @@
                 break
             case 'edit':
                 $(modal_body_form)
-                    .find('[name=roles_name_th]').val(data.NAME).end()
-                    .find('[name=roles_name_us]').val(data.NAME_US).end()
-                    .find('[name=roles_descrip_th]').val(data.DESCRIPTION).end()
-                    .find('[name=roles_descrip_us]').val(data.DESCRIPTION_US).end()
-                    .find('[name=roles_code]').val(data.CODE).end()
+                    .find('[name=roles_name_th]').val(data.name).end()
+                    .find('[name=roles_name_us]').val(data.name_us).end()
+                    .find('[name=roles_descrip_th]').val(data.description).end()
+                    .find('[name=roles_descrip_us]').val(data.description_us).end()
+                    .find('[name=roles_code]').val(data.code).end()
 
                 //
                 // create role
                 let roles_id_child
-                if (data.ROLES.length) {
-                    roles_id_child = data.ROLES.map(function(item) {
-                        return item.ROLES_ID_CHILD
+                if (data.roles.length) {
+                    roles_id_child = data.roles.map(function(item) {
+                        return item.roles_id_child
                     })
 
                     $(modal_body_form)
@@ -376,9 +376,9 @@
 
                     //
                     // create permit
-                    create_html_checkjstree(data.PERMIT, 1)
+                    create_html_checkjstree(data.permit, 1)
                 } else {
-                    create_html_checkjstree(data.PERMIT)
+                    create_html_checkjstree(data.permit)
 
                 }
 
@@ -404,8 +404,8 @@
                 let item_id
 
                 resp.map(function(item) {
-                    item_value = textCapitalize(item.CODE)
-                    item_id = item.ID
+                    item_value = textCapitalize(item.code)
+                    item_id = item.id
                     data_array += `<option value="${item_id}">${item_value}</option>`
                 })
                 $('[data-toggle=select2]')
@@ -422,7 +422,7 @@
             $.each(data, function(key, arraypermit) {
                 if (arraypermit.length) {
                     $.each(arraypermit, function(index, column) {
-                        permit_id = column.PERMIT_ID
+                        permit_id = column.permit_id
                         if (permit_id) {
 
                             let js_checkbox = $(modal_body_form)
@@ -431,9 +431,9 @@
 
                             js_checkbox.jstree("check_node", "#" + js_id)
 
-                            if (disable == 1 && role_child_select.indexOf(column.ROLES_ID) != -1) {
+                            if (disable == 1 && role_child_select.indexOf(column.roles_id) != -1) {
                                 js_checkbox.jstree("disable_node", "#" + js_id)
-                                    .find('a').attr('data-jstree_fromrole', column.ROLES_CODE)
+                                    .find('a').attr('data-jstree_fromrole', column.roles_code)
 
                             }
                         }

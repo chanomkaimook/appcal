@@ -210,8 +210,8 @@
 
             clear_dataStandby()
 
-            if (action != 'add' && data.NAME) {
-                let header = data.NAME
+            if (action != 'add' && data.name) {
+                let header = data.name
                 $(modal).find('.modal_text_header').html(header)
             }
 
@@ -220,21 +220,21 @@
                     $('.btn_print').show()
 
                     $(modal_body_view)
-                        .find('.code').text(data.CODE).end()
-                        .find('.lab').text(data.LAB_NAME).end()
-                        .find('.name').text(data.NAME).end()
-                        .find('.name_us').text(data.NAME_US).end()
-                        .find('.intervaltime').text(data.INTERVALTIME).end()
-                        .find('.projectcode').text(data.PROJECTCODE).end()
+                        .find('.code').text(data.code).end()
+                        .find('.lab').text(data.lab_name).end()
+                        .find('.name').text(data.name).end()
+                        .find('.name_us').text(data.name_us).end()
+                        .find('.intervaltime').text(data.intervaltime).end()
+                        .find('.projectcode').text(data.projectcode).end()
 
-                        .find('.ambienttempmin').text(data.AMBIENTTEMPMIN).end()
-                        .find('.ambienttempmax').text(data.AMBIENTTEMPMAX).end()
-                        .find('.relativehumditymin').text(data.RELATIVEHUMDITYMIN).end()
-                        .find('.relativehumditymax').text(data.RELATIVEHUMDITYMAX).end()
-                        .find('.atmosphericmin').text(data.ATMOSPHERICMIN).end()
-                        .find('.atmosphericmax').text(data.ATMOSPHERICMAX).end()
-                        .find('.user').text(data.USER_ACTIVE).end()
-                        .find('.datetime').text(data.DATE_ACTIVE).end()
+                        .find('.ambienttempmin').text(data.ambienttempmin).end()
+                        .find('.ambienttempmax').text(data.ambienttempmax).end()
+                        .find('.relativehumditymin').text(data.relativehumditymin).end()
+                        .find('.relativehumditymax').text(data.relativehumditymax).end()
+                        .find('.atmosphericmin').text(data.atmosphericmin).end()
+                        .find('.atmosphericmax').text(data.atmosphericmax).end()
+                        .find('.user').text(data.user_active).end()
+                        .find('.datetime').text(data.date_active).end()
 
                     break
                 case 'edit':
@@ -247,19 +247,19 @@
                             await new Promise((resolve, reject) => {
                                 resolve(
                                     $(modal_body_form)
-                                    .find('[name=code]').val(data.CODE).end()
-                                    .find('[name=lab_id]').val(data.LAB_ID).end()
-                                    .find('[name=name]').val(data.NAME).end()
-                                    .find('[name=name_us]').val(data.NAME_US).end()
-                                    .find('[name=intervaltime]').val(data.INTERVALTIME).end()
-                                    .find('[name=projectcode]').val(data.PROJECTCODE).end()
+                                    .find('[name=code]').val(data.code).end()
+                                    .find('[name=lab_id]').val(data.lab_id).end()
+                                    .find('[name=name]').val(data.name).end()
+                                    .find('[name=name_us]').val(data.name_us).end()
+                                    .find('[name=intervaltime]').val(data.intervaltime).end()
+                                    .find('[name=projectcode]').val(data.projectcode).end()
 
-                                    .find('[name=ambienttempmin]').val(data.AMBIENTTEMPMIN).end()
-                                    .find('[name=ambienttempmax]').val(data.AMBIENTTEMPMAX).end()
-                                    .find('[name=relativehumditymin]').val(data.RELATIVEHUMDITYMIN).end()
-                                    .find('[name=relativehumditymax]').val(data.RELATIVEHUMDITYMAX).end()
-                                    .find('[name=atmosphericmin]').val(data.ATMOSPHERICMIN).end()
-                                    .find('[name=atmosphericmax]').val(data.ATMOSPHERICMAX).end()
+                                    .find('[name=ambienttempmin]').val(data.ambienttempmin).end()
+                                    .find('[name=ambienttempmax]').val(data.ambienttempmax).end()
+                                    .find('[name=relativehumditymin]').val(data.relativehumditymin).end()
+                                    .find('[name=relativehumditymax]').val(data.relativehumditymax).end()
+                                    .find('[name=atmosphericmin]').val(data.atmosphericmin).end()
+                                    .find('[name=atmosphericmax]').val(data.atmosphericmax).end()
                                 )
                             })
                         } catch (error) {
@@ -292,7 +292,7 @@
                         let r = `<option value="" disabled selected>ระบุ</option>`
                         if (resp) {
                             resp.map(function(item, index) {
-                                r += `<option value="${item.ID}">${item.CODE}</option>`
+                                r += `<option value="${item.id}">${item.code}</option>`
                             })
                         }
                         return r

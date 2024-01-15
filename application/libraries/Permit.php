@@ -57,8 +57,8 @@ class Permit
 
 			if ($query_permit) {
 				foreach ($query_permit as $row_permit) {
-					if ($row_permit->ROLES_ID) {
-						$role_id = $row_permit->ROLES_ID;
+					if ($row_permit->roles_id) {
+						$role_id = $row_permit->roles_id;
 						//
 						// value 1 = administrator
 						if ($role_id == 1) {
@@ -70,33 +70,33 @@ class Permit
 
 						if ($q_in_1) {
 							foreach ($q_in_1 as $row_in_1) {
-								if ($row_in_1->CODE) {
-									$roles_id_list[] =  $row_in_1->ROLES_ID;
-									$roles_name_list[] =  $row_in_1->ROLES_CODE;
-									$permit_id_list[] =  $row_in_1->PERMIT_ID;
-									$permit_name_list[] = $row_in_1->CODE;
+								if ($row_in_1->code) {
+									$roles_id_list[] =  $row_in_1->roles_id;
+									$roles_name_list[] =  $row_in_1->roles_code;
+									$permit_id_list[] =  $row_in_1->permit_id;
+									$permit_name_list[] = $row_in_1->code;
 								}
 
-								if ($row_in_1->MENUS_CODE) {
-									$menu_name_list[] = $row_in_1->MENUS_CODE;
+								if ($row_in_1->menus_code) {
+									$menu_name_list[] = $row_in_1->menus_code;
 								}
 							}
 						}
 					}	// end role list
 
-					if ($row_permit->PERMIT_ID) {
-						$permit_id = $row_permit->PERMIT_ID;
+					if ($row_permit->permit_id) {
+						$permit_id = $row_permit->permit_id;
 						$row_in_2 = $this->permit->get_data($permit_id);
 
 						if ($row_in_2) {
 
-							if ($row_in_2->CODE) {
-								$permit_id_list[] =  $row_in_2->ID;
-								$permit_name_list[] = $row_in_2->CODE;
+							if ($row_in_2->code) {
+								$permit_id_list[] =  $row_in_2->id;
+								$permit_name_list[] = $row_in_2->code;
 							}
 
-							if ($row_in_2->MENUS_CODE) {
-								$menu_name_list[] = $row_in_2->MENUS_CODE;
+							if ($row_in_2->menus_code) {
+								$menu_name_list[] = $row_in_2->menus_code;
 							}
 						}
 					}	// end permit list

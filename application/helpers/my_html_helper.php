@@ -166,9 +166,9 @@ function html_roles_jstree(array $array = null, string $classplugin = "jstree")
       $li_permit = '';
 
       foreach ($array_one as $key => $array_two) {
-        $permit_id = $array_two['ID'];
-        $permit_name = textLang($array_two['NAME'], $array_two['NAME_US']);
-        $menus_name = textLang($array_two['MENUS_NAME'], $array_two['MENUS_NAME_US']);
+        $permit_id = $array_two['id'];
+        $permit_name = textLang($array_two['name'], $array_two['name_us']);
+        $menus_name = textLang($array_two['menus_name'], $array_two['menus_name_us']);
 
         $li_permit .= '<li data-jstree=\'{"icon":"mdi mdi-file-outline"}\' 
         data-id="' . $permit_id . '">' . $permit_name . '</li>';

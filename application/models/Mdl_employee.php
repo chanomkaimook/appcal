@@ -257,7 +257,7 @@ class Mdl_employee extends CI_Model
         } else {
             $sql->select('
             employee.*,
-            concat(employee.NAME," ",employee.LASTNAME) as EMPLOYEE_NAME,
+            concat(employee.name," ",employee.lastname) as employee_name,
         ');
         }
 

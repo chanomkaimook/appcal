@@ -13,16 +13,16 @@ class Mdl_register extends CI_Model
     public function get_data_staff()
     {
         $query = $this->db->select('
-            employee.NAME as NAME,
-            employee.LASTNAME as LASTNAME,
-            employee.EMAIL as EMAIL,
-            employee.POSITION as POSITION,
-            employee.DEPARTMENT as DEPARTMENT,
-            employee.SECTION as SECTION,
-            staff.ID as ID,
-            staff.USERNAME as USERNAME,
-            staff.VERIFY as VERIFY,
-            staff.DATE_STARTS as DATE_STARTS,
+            employee.name as name,
+            employee.lastname as lastname,
+            employee.email as email,
+            employee.position as position,
+            employee.department as department,
+            employee.section as section,
+            staff.id as id,
+            staff.username as username,
+            staff.verify as verify,
+            staff.date_starts as date_starts,
         ')
             ->join('employee', 'staff.employee_id = employee.id', 'left')
             ->where('staff.verify is null')
@@ -35,9 +35,9 @@ class Mdl_register extends CI_Model
     public function del_user_less()
     {
         # code...
-        $sql = $this->db->select('ID,EMPLOYEE_ID')
+        $sql = $this->db->select('id,employee_id')
             ->from('staff')
-            ->where('DATEDIFF(NOW(), DATE_STARTS) > 0', null, false)
+            ->where('DATEDIFF(NOW(), date_starts) > 0', null, false)
             ->where('verify is null', null, false)
             ->get();
         $number = $sql->num_rows();

@@ -41,7 +41,7 @@
     let modal_view_name = '#modal_view'
     let modal_body_view = '.modal .modal-body-view'
     let modal_body_form = '.modal .modal-body-form'
-    
+
 
     $(document).ready(function() {
 
@@ -104,7 +104,7 @@
         //  * 
         //  * call function view data
         //  *
-        $(d).on('click', form_button_btn_view, function(e) {
+        $(d).on('click', form_button_btn_view + ",.text-info", function(e) {
             e.preventDefault()
 
             let id = $(this).attr('data-id')
@@ -189,7 +189,7 @@
     //  =========================
     //  =========================
     //  Function
-    //  adjust code default here
+    //  Todo adjust code default here
     //  =========================
     //  =========================
 
@@ -201,29 +201,36 @@
     //  * @data = array[key=>[column=>value]]
     //  *
     function modalActive(data = [], action = 'view') {
-        if (data.length) {
-            let header = data[0].code
-            $(modal).find('.modal_text_header').html(header)
+        if (data) {
+            if (action != 'add' && data.NAME) {
+                let header = data.NAME
+                $(modal).find('.modal_text_header').html(header)
+            }
+
+            switch (action) {
+                case 'view':
+                    $('.btn_print').show()
+
+                    $(modal_body_view)
+                        .find('.label_1').text(data.NAME).end()
+
+                    break
+                case 'edit':
+                    $('.btn_print').hide()
+
+                    $(modal_body_form)
+                        .find('[name=label_1]').val(data.WORKSTATUS).end()
+
+                    break
+                default:
+                    $('.btn_print').hide()
+                    break
+            }
+
+            $(modal_view_name).modal()
+
+            modalLayout(action)
         }
-
-        switch (action) {
-            case 'view':
-                $(modal_body_view)
-                    .find('.label_1').text(data[0].name).end()
-
-                break
-            case 'edit':
-                $(modal_body_form)
-                    .find('[name=label_1]').val(data[0].workstatus).end()
-
-                break
-            default:
-                break
-        }
-
-        $(modal_view_name).modal()
-
-        modalLayout(action)
     }
 
     //  *
@@ -321,11 +328,14 @@
     function delete_data(item_id) {
         Swal.fire(
                 swal_setConfirmInput()
+                // swal_setConfirm()
             )
             .then((result) => {
-                if (!result.dismiss) {
-                    let remark = result.value
+                if (result.value && result.value !== true) {
+                    let remark = result.value.trim()
                     confirm_delete(item_id, remark)
+                } else {
+                    confirm_delete(item_id)
                 }
             })
 
@@ -347,12 +357,12 @@
                     if (data.error == 0) {
                         swalalert()
                     } else {
-                        swalalert('error', resp.txt, {
+                        swalalert('error', data.txt, {
                             auto: false
                         })
                     }
 
-                    dataReload()
+                    dataReload(false)
                 })
         }
 
@@ -362,12 +372,17 @@
     //  * DataTable
     //  * reload
     //  * 
+    //  @param bool $reload = reload datatable
     //  * refresh data on datatable
     //  *
-    function dataReload() {
+    function dataReload(reload = true) {
         modalHide()
 
-        $(datatable_name).DataTable().ajax.reload()
+        if (reload == false) {
+            $(datatable_name).DataTable().ajax.reload(null, false)
+        } else {
+            $(datatable_name).DataTable().ajax.reload()
+        }
     }
 
     //  *
@@ -382,6 +397,7 @@
         form.forEach((item, key) => {
             document.getElementsByTagName('form')[key].reset();
         })
+        $(modal).find('.modal_text_header').html('')
     }
 
     //  *

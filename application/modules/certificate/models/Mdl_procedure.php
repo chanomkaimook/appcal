@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Mdl_sublab extends CI_Model
+class Mdl_page extends CI_Model
 
 {
-    private $table = "sublab";
+    private $table = "calprocedure";
     private $offview = "";
     private $fildstatus = "status";
 
@@ -78,27 +78,6 @@ class Mdl_sublab extends CI_Model
     {
         # code...
         $sql = (object) $this->get_sql($id, $optionnal, $type);
-        if ($this->fildstatus) {
-            $sql->where($this->table . '.' . $this->fildstatus, 1);
-        }
-
-        $query = $sql->get();
-
-        if ($id) {
-            return $query->row();
-        } else {
-            return $query->$type();
-        }
-    }
-
-    public function get_dataShowJoninLab(int $id = null, array $optionnal = null, string $type = "result")
-    {
-        # code...
-        $optionnal['select'] = $this->table . ".*,
-        lab.name as lab_name,
-        lab.name_us as lab_name_us";
-        $sql = (object) $this->get_sql($id, $optionnal, $type);
-        $sql->join('lab',$this->table.'.lab_id=lab.id','left');
         if ($this->fildstatus) {
             $sql->where($this->table . '.' . $this->fildstatus, 1);
         }
@@ -254,6 +233,22 @@ class Mdl_sublab extends CI_Model
             return $return;
         }
 
+        $array_chk_dup1 = array(
+            'code' => $item_code,
+            'status' => 1
+        );
+        if ($return = $this->check_dup($array_chk_dup1, $item_code)) {
+            return $return;
+        }
+
+        $array_chk_dup2 = array(
+            'name' => $item_name,
+            'status' => 1
+        );
+        if ($return = $this->check_dup($array_chk_dup2, $item_name)) {
+            return $return;
+        }
+
         $new_id = "";
 
         if ($data_insert && is_array($data_insert)) {
@@ -293,7 +288,7 @@ class Mdl_sublab extends CI_Model
         if ($item_id) {
             $request = $_POST;
 
-            $item_projectcode = textNull($data_update['projectcode']) ? $data_update['projectcode'] : $request['code'];
+            $item_code = textNull($data_update['code']) ? $data_update['code'] : $request['code'];
             $item_name = textNull($data_update['name']) ? $data_update['name'] : $request['name'];
             $array_chk_dup = array(
                 'name' => $item_name,
@@ -302,6 +297,19 @@ class Mdl_sublab extends CI_Model
             );
 
             if ($return = $this->check_value_valid($array_chk_dup)) {
+                return $return;
+            }
+
+            if ($return = $this->check_dup($array_chk_dup, $item_name)) {
+                return $return;
+            }
+
+            $array_chk_dupcode = array(
+                'code' => $item_code,
+                'status' => 1,
+                'id !=' => $item_id,
+            );
+            if ($return = $this->check_dup($array_chk_dupcode, $item_name)) {
                 return $return;
             }
 
@@ -496,8 +504,8 @@ class Mdl_sublab extends CI_Model
                     );
                     $next = 0;
                 }
-                if ($next == 1) {
-                    $sql->order_by($this->table . '.' . $item_column, $request['order'][0]['dir']);
+                if($next == 1){
+                    $sql->order_by($this->table . '.'.$item_column, $request['order'][0]['dir']);
                 }
             } else {
                 $sql->order_by($this->table . '.id', 'desc');

@@ -47,7 +47,7 @@ function whois(String $value = null)
   # code...
   $result = "";
   if ($value) {
-    $sql = $ci->db->select('NAME,LASTNAME')
+    $sql = $ci->db->select('name,lastname')
       ->from('staff')
       ->join('employee','employee.id=staff.employee_id','left')
       ->where('staff.id', $value);
@@ -55,7 +55,7 @@ function whois(String $value = null)
     $q = $sql->get();
     if ($count) {
       $row = $q->row();
-      $result = $row->NAME . " " . $row->LASTNAME;
+      $result = $row->name . " " . $row->lastname;
     }
   }
 
@@ -102,7 +102,7 @@ function status_alias(String $key = null, String $alias = null)
   $result = "";
 
   if ($key) {
-    $sql = $ci->db->select('ID,NAME')
+    $sql = $ci->db->select('id,name')
       ->from('status_alias');
 
     if ($alias) {
@@ -129,7 +129,7 @@ function status_alias(String $key = null, String $alias = null)
  * @param string $column = column to show
  * @return void
  */
-function get_status_alias(String $key = null, String $alias = null,String $column = "NAME")
+function get_status_alias(String $key = null, String $alias = null,String $column = "name")
 {
   $ci = &get_instance();
   $ci->load->database();
@@ -140,7 +140,7 @@ function get_status_alias(String $key = null, String $alias = null,String $colum
   if ($key) {
     $sql = (object) status_alias($key,$alias);
     // print_r($sql);
-    $result = $sql->NAME;
+    $result = $sql->name;
   }
 
   return $result;

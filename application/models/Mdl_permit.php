@@ -85,8 +85,8 @@ class Mdl_permit extends CI_Model
     public function get_dataJoinMenus(int $id = null, array $optionnal = null, string $type = "result")
     {
         $optionnal['select'] = $this->table.".*,
-        menus.name as MENUS_NAME,
-        menus.name_us as MENUS_NAME_US
+        menus.name as menus_name,
+        menus.name_us as menus_name_us
         ";
 
         $optionnal['order_by'] = array(
@@ -119,12 +119,12 @@ class Mdl_permit extends CI_Model
 
         if (!$optionnal['select']) {
             $optionnal['select'] = $this->table.".*,
-            " . $this->table . ".id as PERMIT_ID,
-            " . $this->table . ".code as CODE,
-            " . $this->table . ".name as NAME,
-            " . $this->table . ".name_us as NAME_US,
-            " . $menus . ".name as MENUS_NAME,
-            " . $menus . ".name_us as MENUS_NAME_US";
+            " . $this->table . ".id as permit_id,
+            " . $this->table . ".code as code,
+            " . $this->table . ".name as name,
+            " . $this->table . ".name_us as name_us,
+            " . $menus . ".name as menus_name,
+            " . $menus . ".name_us as menus_name_us";
         }
 
         if(is_array($permit_id)){
