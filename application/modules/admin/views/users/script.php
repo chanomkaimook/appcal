@@ -28,7 +28,7 @@
             let a = $('.jstree-grid-container li[aria-level=2][aria-selected=true]')
             $.each(a, function(index, item) {
 
-                if ($(item).find('a').attr('aria-disabled') != "true") {
+                if ($(item).find('a').attr('aria-disabled') != "true" || $(item).find('a').hasClass('jstree-clicked')) {
 
                     data.push({
                         'name': 'permit_id[]',
@@ -42,28 +42,27 @@
             // return false;
             if (item_id) {
                 func = async_update_data(item_id, data)
+
+                func
+                    .then((resp) => {
+                        if (resp.error == 1) {
+                            swalalert('error', resp.data.txt, {
+                                auto: false
+                            })
+                        } else {
+                            swalalert()
+                                .then((result) => {
+
+                                    modalHide()
+
+                                    dataReload()
+
+                                })
+                        }
+                    });
             } else {
                 func = register()
             }
-
-            func
-                .then((resp) => {
-                    if (resp.error == 1) {
-                        swalalert('error', resp.data.txt, {
-                            auto: false
-                        })
-                    } else {
-                        swalalert()
-                            .then((result) => {
-
-                                modalHide()
-
-                                dataReload()
-
-                            })
-                    }
-                });
-
 
             return false
         })
@@ -87,14 +86,12 @@
             // set variable checkbox
             // permit
             let a = $('.jstree-grid-container li[aria-level=2][aria-selected=true]')
+           
             $.each(a, function(index, item) {
-
-                if ($(item).find('a').attr('aria-disabled') != "true") {
+                if ($(item).find('a').attr('aria-disabled') != "true" || $(item).find('a').hasClass('jstree-clicked')) {
                     data.append('permit_id[]', $(item).attr('data-id'))
                 }
             })
-
-
 
             fetch(url, {
                     method: 'POST',
@@ -109,7 +106,7 @@
 
                         swalalert('success', 'รหัสพร้อมใช้งาน')
                             .then((result) => {
-                                update_verify(resp.data.ID, resp.data.USERNAME)
+                                update_verify(resp.data.id, resp.data.username)
                                 dataReload()
                             })
                     }
@@ -312,12 +309,12 @@
                         let js_checkbox
                         let js_id
 
-                        if (resp.PERMIT) {
-                            $.each(resp.PERMIT, function(index, item) {
+                        if (resp.permit) {
+                            $.each(resp.permit, function(index, item) {
                                 item.map(function(permit) {
 
                                     js_checkbox = $(modal_body_form)
-                                        .find('.jstree-grid-container li[aria-level=2][data-id=' + permit.PERMIT_ID + ']')
+                                        .find('.jstree-grid-container li[aria-level=2][data-id=' + permit.permit_id + ']')
                                     js_id = js_checkbox.attr('id')
 
                                     js_checkbox.jstree("deselect_node", "#" + js_id)
@@ -361,7 +358,7 @@
                 .then(res => res.json())
                 .then(resp => {
 
-                    create_html_checkjstree(resp.PERMIT, 1)
+                    create_html_checkjstree(resp.permit, 1)
 
                 })
         } else {
@@ -383,20 +380,20 @@
     //  *
     function modalActive(data = [], action = 'view') {
         if (data) {
-            if (action != 'add' && data.NAME) {
-                let header = data.NAME
+            if (action != 'add' && data.name) {
+                let header = data.name
                 $(modal).find('.modal_text_header').html(header)
             }
 
             switch (action) {
                 case 'view':
                     $(modal_body_view)
-                        .find('.name_th').text(data.NAME).end()
-                        .find('.name_us').text(data.NAME_US).end()
-                        .find('.lastname_th').text(data.LASTNAME).end()
-                        .find('.lastname_us').text(data.LASTNAME_US).end()
-                        .find('.username').text(data.USERNAME).end()
-                        .find('.jstree-grid-container').html(data.PERMIT_HTML).end()
+                        .find('.name_th').text(data.name).end()
+                        .find('.name_us').text(data.name_us).end()
+                        .find('.lastname_th').text(data.lastname).end()
+                        .find('.lastname_us').text(data.lastname_us).end()
+                        .find('.username').text(data.username).end()
+                        .find('.jstree-grid-container').html(data.permit_html).end()
 
 
                     // create role
@@ -408,8 +405,8 @@
                         let data_array_html = ""
                         await new Promise((resolve, reject) => {
                             resolve(
-                                data.ROLES.map(function(item) {
-                                    data_array_html += create_html_roles(textCapitalize(item.ROLES_CODE))
+                                data.roles.map(function(item) {
+                                    data_array_html += create_html_roles(textCapitalize(item.roles_code))
                                 })
                             )
 
@@ -423,20 +420,20 @@
                     break
                 case 'edit':
                     $(modal_body_form)
-                        .find('[name=name_th]').val(data.NAME).end()
-                        .find('[name=name_us]').val(data.NAME_US).end()
-                        .find('[name=lastname_th]').val(data.LASTNAME).end()
-                        .find('[name=lastname_us]').val(data.LASTNAME_US).end()
-                        .find('[name=input_username]').val(data.USERNAME)
+                        .find('[name=name_th]').val(data.name).end()
+                        .find('[name=name_us]').val(data.name_us).end()
+                        .find('[name=lastname_th]').val(data.lastname).end()
+                        .find('[name=lastname_us]').val(data.lastname_us).end()
+                        .find('[name=input_username]').val(data.username)
                         .attr('disabled', 'disabled').end()
                         .find('[name=input_password]').attr('disabled', 'disabled').end()
 
                     //
                     // create role
                     let roles_id_child
-                    if (data.ROLES.length) {
-                        roles_id_child = data.ROLES.map(function(item) {
-                            return item.ROLES_ID
+                    if (data.roles.length) {
+                        roles_id_child = data.roles.map(function(item) {
+                            return item.roles_id
                         })
 
                         $(modal_body_form)
@@ -447,14 +444,14 @@
 
                         //
                         // create permit
-                        create_html_checkjstree(data.PERMIT, 1)
+                        create_html_checkjstree(data.permit, 1)
 
                     } else {
-                        create_html_checkjstree(data.PERMIT)
+                        create_html_checkjstree(data.permit)
                     }
 
-                    if (data.PERMIT_NOROLE.length) {
-                        create_permit_norole(data.PERMIT_NOROLE)
+                    if (data.permit_norole.length) {
+                        create_permit_norole(data.permit_norole)
                     }
 
                     break
@@ -475,7 +472,7 @@
 
             $.each(data, function(key, item) {
                 js_checkbox = $(modal_body_form)
-                    .find('.jstree-grid-container li[aria-level=2][data-id=' + item.ID + ']')
+                    .find('.jstree-grid-container li[aria-level=2][data-id=' + item.id + ']')
 
                 js_id = js_checkbox.attr('id')
                 js_checkbox.jstree("check_node", "#" + js_id)
@@ -493,8 +490,8 @@
                 let item_id
 
                 resp.map(function(item) {
-                    item_value = textCapitalize(item.CODE)
-                    item_id = item.ID
+                    item_value = textCapitalize(item.code)
+                    item_id = item.id
                     data_array += `<option value="${item_id}">${item_value}</option>`
                 })
                 $('[data-toggle=select2]')
@@ -512,7 +509,7 @@
             $.each(data, function(key, arraypermit) {
                 if (arraypermit.length) {
                     $.each(arraypermit, function(index, column) {
-                        permit_id = column.PERMIT_ID
+                        permit_id = column.permit_id
                         if (permit_id) {
 
                             let js_checkbox = $(modal_body_form)
@@ -521,9 +518,9 @@
 
                             js_checkbox.jstree("check_node", "#" + js_id)
 
-                            if (disable == 1 && role_child_select.indexOf(column.ROLES_ID) != -1) {
+                            if (disable == 1 && role_child_select.indexOf(column.roles_id) != -1) {
                                 js_checkbox.jstree("disable_node", "#" + js_id)
-                                    .find('a').attr('data-jstree_fromrole', column.ROLES_CODE)
+                                    .find('a').attr('data-jstree_fromrole', column.roles_code)
 
                             }
                         }
@@ -710,6 +707,7 @@
             document.getElementsByTagName('form')[key].reset();
         })
 
+        $(modal).find('[name=input_username]').removeAttr('disabled').end()
         $(modal).find('[name=input_password]').removeAttr('disabled').end()
 
         //

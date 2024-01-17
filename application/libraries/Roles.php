@@ -69,11 +69,11 @@ class Roles
 	{
 		$array_permit = array();
 
-		$array_group = array_unique(array_column($data, 'MENUS_CODE'));
+		$array_group = array_unique(array_column($data, 'menus_code'));
 		if ($array_group) {
 			foreach ($array_group as $g_index => $g_value) {
 				// find permit have menu_id = g_index
-				$array_list = array_keys(array_column($data, 'MENUS_CODE'), $g_value);
+				$array_list = array_keys(array_column($data, 'menus_code'), $g_value);
 
 				if ($array_list) {
 					foreach ($array_list as $l_index => $l_value) {
@@ -116,9 +116,18 @@ class Roles
 
 		if ($id) {
 			$ci->load->model('mdl_roles_control');
-			$optional['group_by'] = array('roles.CODE');
+			$optional['group_by'] = array('roles.code');
 
 			$result = $ci->mdl_roles_control->get_dataRolesOnly($id, $optional, $type);
+
+			if(is_array($id)){
+				if(is_numeric(array_search("1",$id))){
+					$result[] = array(
+						'roles_code'	=> 'administrator',
+						'roles_id'		=> 1
+					);
+				}
+			}
 		}
 
 		return $result;
@@ -222,8 +231,8 @@ class Roles
 			$q = $ci->mdl_permit_control->get_dataStaff($id,$optional_in,'result_array');
 			if($q){
 				foreach($q as $row){
-					if($row['PERMIT_ID']){
-						$p_array[] = $row['PERMIT_ID'];
+					if($row['permit_id']){
+						$p_array[] = $row['permit_id'];
 					}
 				}
 			}

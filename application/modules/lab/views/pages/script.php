@@ -202,8 +202,8 @@
     //  *
     function modalActive(data = [], action = 'view') {
         if (data) {
-            if (action != 'add' && data.NAME) {
-                let header = data.NAME
+            if (action != 'add' && data.CODE) {
+                let header = data.CODE
                 $(modal).find('.modal_text_header').html(header)
             }
 
@@ -212,28 +212,28 @@
                     $('.btn_print').show()
 
                     $(modal_body_view)
-                        .find('.code').text(data.CODE).end()
-                        .find('.depcode').text(data.DEPCODE).end()
-                        .find('.name').text(data.NAME).end()
-                        .find('.name_us').text(data.NAME_US).end()
-                        .find('.intervaltime').text(data.INTERVALTIME).end()
-                        .find('.projectcode').text(data.PROJECTCODE).end()
-                        .find('.remark').text(data.REMARK).end()
-                        .find('.user').text(data.USER_ACTIVE).end()
-                        .find('.datetime').text(data.DATE_ACTIVE).end()
+                        .find('.code').text(data.code).end()
+                        .find('.depcode').text(data.depcode).end()
+                        .find('.name').text(data.name).end()
+                        .find('.name_us').text(data.name_us).end()
+                        .find('.intervaltime').text(data.intervaltime).end()
+                        .find('.projectcode').text(data.projectcode).end()
+                        .find('.remark').text(data.remark).end()
+                        .find('.user').text(data.user_active).end()
+                        .find('.datetime').text(data.date_active).end()
 
                     break
                 case 'edit':
                     $('.btn_print').hide()
 
                     $(modal_body_form)
-                        .find('[name=code]').val(data.CODE).end()
-                        .find('[name=depcode]').val(data.DEPCODE).end()
-                        .find('[name=name]').val(data.NAME).end()
-                        .find('[name=name_us]').val(data.NAME_US).end()
-                        .find('[name=intervaltime]').val(data.INTERVALTIME).end()
-                        .find('[name=projectcode]').val(data.PROJECTCODE).end()
-                        .find('[name=remark]').val(data.WORKSTATUS).end()
+                        .find('[name=code]').val(data.code).end()
+                        .find('[name=depcode]').val(data.depcode).end()
+                        .find('[name=name]').val(data.name).end()
+                        .find('[name=name_us]').val(data.name_us).end()
+                        .find('[name=intervaltime]').val(data.intervaltime).end()
+                        .find('[name=projectcode]').val(data.projectcode).end()
+                        .find('[name=remark]').val(data.remark).end()
 
                     break
                 default:
@@ -345,9 +345,11 @@
                 // swal_setConfirm()
             )
             .then((result) => {
-                if (!result.dismiss) {
+                if (result.value && result.value !== true) {
                     let remark = result.value.trim()
                     confirm_delete(item_id, remark)
+                } else {
+                    confirm_delete(item_id)
                 }
             })
 

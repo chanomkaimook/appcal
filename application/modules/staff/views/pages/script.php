@@ -202,19 +202,19 @@
     //  *
     function modalActive(data = [], action = 'view') {
         if (data.length) {
-            let header = data[0].CODE
+            let header = data[0].code
             $(modal).find('.modal_text_header').html(header)
         }
 
         switch (action) {
             case 'view':
                 $(modal_body_view)
-                    .find('.label_1').text(data[0].NAME).end()
+                    .find('.label_1').text(data[0].name).end()
 
                 break
             case 'edit':
                 $(modal_body_form)
-                    .find('[name=label_1]').val(data[0].WORKSTATUS).end()
+                    .find('[name=label_1]').val(data[0].workstatus).end()
 
                 break
             default:

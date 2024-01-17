@@ -202,8 +202,8 @@
     //  *
     function modalActive(data = [], action = 'view') {
         if (data) {
-            if (action != 'add' && data.NAME) {
-                let header = data.NAME
+            if (action != 'add' && data.name) {
+                let header = data.name
                 $(modal).find('.modal_text_header').html(header)
             }
 
@@ -212,14 +212,14 @@
                     $('.btn_print').show()
 
                     $(modal_body_view)
-                        .find('.label_1').text(data.NAME).end()
+                        .find('.label_1').text(data.name).end()
 
                     break
                 case 'edit':
                     $('.btn_print').hide()
 
                     $(modal_body_form)
-                        .find('[name=label_1]').val(data.WORKSTATUS).end()
+                        .find('[name=label_1]').val(data.workstatus).end()
 
                     break
                 default:
@@ -331,9 +331,11 @@
                 // swal_setConfirm()
             )
             .then((result) => {
-                if (!result.dismiss) {
+                if (result.value && result.value !== true) {
                     let remark = result.value.trim()
                     confirm_delete(item_id, remark)
+                } else {
+                    confirm_delete(item_id)
                 }
             })
 

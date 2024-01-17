@@ -109,13 +109,13 @@ class Mdl_roles_control extends CI_Model
 
         if (!$optionnal['select']) {
             $optionnal['select'] = "*,
-            " . $roles . ".id as ROLES_ID,
-            " . $roles . ".code as ROLES_CODE,
-            " . $permit . ".code as CODE,
-            " . $permit . ".name as NAME,
-            " . $permit . ".name_us as NAME_US,
-            " . $menus . ".name as MENUS_NAME,
-            " . $menus . ".name_us as MENUS_NAME_US";
+            " . $roles . ".id as roles_id,
+            " . $roles . ".code as roles_code,
+            " . $permit . ".code as code,
+            " . $permit . ".name as name,
+            " . $permit . ".name_us as name_us,
+            " . $menus . ".name as menus_name,
+            " . $menus . ".name_us as menus_name_us";
         }
 
         if(is_array($roles_id)){
@@ -160,7 +160,7 @@ class Mdl_roles_control extends CI_Model
 
         if (!$optionnal['select']) {
             $optionnal['select'] = $this->table . ".*,
-            " . $roles . ".code as ROLES_CODE";
+            " . $roles . ".code as roles_code";
         }
 
         if(is_array($roles_id)){
@@ -194,7 +194,7 @@ class Mdl_roles_control extends CI_Model
 
         if (!$optionnal['select']) {
             $optionnal['select'] = $this->table . ".*,
-            " . $roles . ".code as ROLES_CODE";
+            " . $roles . ".code as roles_code";
         }
         if(is_array($roles_id)){
             $optionnal['where'][$this->table . '.roles_id in('.$roles_id.')'] = null;
@@ -272,12 +272,12 @@ class Mdl_roles_control extends CI_Model
             $menus = $this->menu;
     
             $optionnals['select'] = "*,
-                        " . $roles . ".code as ROLES_CODE,
-                        " . $permit . ".code as CODE,
-                        " . $permit . ".name as NAME,
-                        " . $permit . ".name_us as NAME_US,
-                        " . $menus . ".name as MENUS_NAME,
-                        " . $menus . ".name_us as MENUS_NAME_US";
+                        " . $roles . ".code as roles_code,
+                        " . $permit . ".code as code,
+                        " . $permit . ".name as name,
+                        " . $permit . ".name_us as name_us,
+                        " . $menus . ".name as menus_name,
+                        " . $menus . ".name_us as menus_name_us";
     
             $optionnals['where'][$this->table . '.roles_id in (' . $item_id . ')'] = null;
             $optionnals['where'][$this->table . '.roles_id_child is null'] = null;

@@ -48,7 +48,7 @@
                 },
             ],
             columns: [{
-                    "data": "USERNAME",
+                    "data": "username",
                     "width": "60px",
                     "render": function(data, type, row, meta) {
                         let code = data
@@ -64,37 +64,37 @@
                     }
                 },
                 {
-                    "data": "NAME",
+                    "data": "name",
                     "width": "",
                     "createdCell": function(td, cellData, rowData, row, col) {
                         $(td).css('min-width', '150px')
                     }
                 },
                 {
-                    "data": "LASTNAME",
+                    "data": "lastname",
                     "width": "",
                     "createdCell": function(td, cellData, rowData, row, col) {
                         $(td).css('min-width', '150px')
                     }
                 },
                 {
-                    "data": "STATUS.display",
+                    "data": "status.display",
                 },
                 {
                     "data": {
-                        _: 'DATE_STARTS.display', // default show
-                        sort: 'DATE_ACTIVE.timestamp'
+                        _: 'date_starts.display', // default show
+                        sort: 'date_active.timestamp'
                     }
                 },
                 {
                     "data": {
-                        _: 'DATE_ACTIVE.display', // default show
-                        sort: 'DATE_ACTIVE.timestamp'
+                        _: 'date_active.display', // default show
+                        sort: 'date_active.timestamp'
                     }
                 },
 
                 {
-                    "data": "ID",
+                    "data": "id",
                     "render": function(data, type, row, meta) {
                         let btn_view = `<a data-id="${data}" class="btn-view text-capitalize dropdown-item" href="#"><i class="mdi mdi-magnify mr-2 text-info font-18 vertical-middle"></i>${table_column_view[setlang]}</a>`
                         let btn_edit = `<a data-id="${data}" class="btn-edit text-capitalize dropdown-item" href="#"><i class="mdi mdi-wrench mr-2 text-warning font-18 vertical-middle"></i>${table_column_edit[setlang]}</a>`
@@ -119,7 +119,7 @@
             //	data load after 
             "rowCallback": function(row, data) {
                 $('td:eq(0)', row).addClass('btn-view')
-                    .attr('data-id', data.ID)
+                    .attr('data-id', data.id)
             },
 
             dom: datatable_dom,

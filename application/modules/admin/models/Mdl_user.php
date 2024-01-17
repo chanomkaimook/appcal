@@ -17,21 +17,21 @@ class Mdl_user extends CI_Model
         $id = $request['id'];
 
         $sql = $this->db->select('
-            employee.NAME as NAME,
-            employee.NAME_US as NAME_US,
-            employee.LASTNAME as LASTNAME,
-            employee.LASTNAME_US as LASTNAME_US,
-            employee.EMAIL as EMAIL,
-            employee.POSITION as POSITION,
-            employee.DEPARTMENT as DEPARTMENT,
-            employee.SECTION as SECTION,
-            concat(employee.NAME," ",employee.LASTNAME) as staff_name,
-            staff.ID as ID,
-            staff.USERNAME as USERNAME,
-            staff.VERIFY as VERIFY,
-            staff.DATE_STARTS as DATE_STARTS,
-            staff.DATE_UPDATE as DATE_UPDATE,
-            staff.STATUS as STATUS,
+            employee.name as name,
+            employee.name_us as name_us,
+            employee.lastname as lastname,
+            employee.lastname_us as lastname_us,
+            employee.email as email,
+            employee.position as position,
+            employee.department as department,
+            employee.section as section,
+            concat(employee.name," ",employee.lastname) as staff_name,
+            staff.id as id,
+            staff.username as username,
+            staff.verify as verify,
+            staff.date_starts as date_starts,
+            staff.date_update as date_update,
+            staff.status as status,
         ')
             ->join('employee', 'staff.employee_id = employee.id', 'left')
             ->where('staff.verify is not null', null, false)
@@ -102,12 +102,12 @@ class Mdl_user extends CI_Model
             // Employee
             // 
             $data_employee = array(
-                'NAME' => textNull($this->input->post('name_th')),
-                'NAME_US' => textNull($this->input->post('name_us')),
-                'LASTNAME' => textNull($this->input->post('lastname_th')),
-                'LASTNAME_US' => textNull($this->input->post('lastname_us')),
-                'DATE_UPDATE' =>   $date_update,
-                'USER_UPDATE' =>   $user_update,
+                'name' => textNull($this->input->post('name_th')),
+                'name_us' => textNull($this->input->post('name_us')),
+                'lastname' => textNull($this->input->post('lastname_th')),
+                'lastname_us' => textNull($this->input->post('lastname_us')),
+                'date_update' =>   $date_update,
+                'user_update' =>   $user_update,
             );
             $this->db->where('id', $employee_id);
             $this->db->update('employee', $data_employee);
@@ -116,7 +116,7 @@ class Mdl_user extends CI_Model
             // Staff
             // 
             $data_staff = array(
-                'STATUS' => 9,     // 10 = force login again
+                'status' => 9,     // 10 = force login again
             );
             $this->db->where('id', $id);
             $this->db->update('staff', $data_staff);
@@ -199,9 +199,9 @@ class Mdl_user extends CI_Model
     public function delete_user()
     {
         $data_array = array(
-            'ID' => $this->input->post('id'),
-            'DATE_UPDATE' =>   date('Y-m-d H:i:s'),
-            'STATUS' =>   '0',
+            'id' => $this->input->post('id'),
+            'date_update' =>   date('Y-m-d H:i:s'),
+            'status' =>   '0',
 
         );
 

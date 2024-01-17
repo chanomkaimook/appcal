@@ -29,7 +29,7 @@
                         <tr>
                             <th>Code</th>
                             <th><?= mb_ucfirst($this->lang->line('_name')) ?></th>
-                            <th><?= mb_ucfirst($this->lang->line('_status')) ?></th>
+                            <th>Project Code</th>
                             <th><?= mb_ucfirst($this->lang->line('_usernow')) ?></th>
                             <th><?= mb_ucfirst($this->lang->line('_datenow')) ?></th>
                             <th class="hidden-sm"><?= mb_ucfirst($this->lang->line('_action')) ?></th>
@@ -59,7 +59,7 @@
         const inputInt = d.querySelectorAll('input.int_only')
         inputInt.forEach(function(item, index) {
             item.addEventListener("keyup", function() {
-                this.value = this.value.replace(/[^0-9.]/g, '');
+                this.value = this.value.replace(/[^0-9.+-]/g, '');
             })
         })
     })

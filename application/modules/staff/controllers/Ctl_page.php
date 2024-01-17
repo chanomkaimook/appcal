@@ -17,7 +17,7 @@ class Ctl_page extends MY_Controller
 
         // setting
         $this->model = $this->$modelname;
-        $this->title = 'รายชื่อพนักงาน';
+        $this->title = mb_ucfirst($this->lang->line('__menu_employee'));
     }
 
     public function index()
@@ -53,50 +53,50 @@ class Ctl_page extends MY_Controller
         if ($data) {
             foreach ($data as $row) {
 
-                $user_active_id = $row->USER_STARTS ? $row->USER_STARTS : $row->USER_UPDATE;
+                $user_active_id = $row->user_starts ? $row->user_starts : $row->user_update;
+                $user_active = whois($user_active_id);
 
-                if ($row->DATE_UPDATE) {
-                    $query_date = $row->DATE_UPDATE;
-                    $user_active = "(แก้) " . whois($row->USER_UPDATE);
+                if ($row->date_update) {
+                    $query_date = $row->date_update;
+                    $user_active = $this->lang->line('_text_edit') . " " . $user_active;
                 } else {
-                    $query_date = $row->DATE_START;
-                    $user_active = "";
+                    $query_date = $row->date_starts;
                 }
 
-                $dom_workstatus = workstatus($row->WORKSTATUS, 'status');
-                $dom_status = status_offview($row->STATUS_OFFVIEW);
+                $dom_workstatus = workstatus($row->workstatus, 'status');
+                $dom_status = status_offview($row->status_offview);
 
                 $sub_data = [];
 
-                $sub_data['ID'] = $row->ID;
-                $sub_data['EMPLOYEE'] = array(
-                    "display" => textShow($row->EMPLOYEE_NAME),
+                $sub_data['id'] = $row->id;
+                $sub_data['employee'] = array(
+                    "display" => textShow($row->employee_name),
                     "data" => array(
-                        'id' => $row->ID,
-                        'name' => textShow($row->NAME),
-                        'lastname' => textShow($row->LASTNAME),
-                        'email' => textShow($row->EMAIL),
-                        'tel' => textShow($row->TEL),
-                        'worktype' => textShow($row->WORKTYPE_ID),
+                        'id' => $row->id,
+                        'name' => textShow($row->name),
+                        'lastname' => textShow($row->lastname),
+                        'email' => textShow($row->email),
+                        'tel' => textShow($row->tel),
+                        'worktype' => textShow($row->worktype_id),
                     )
                 );
 
-                $sub_data['STATUS'] = array(
+                $sub_data['status'] = array(
                     "display" => $dom_status,
                     "data" => array(
-                        'id' => $row->STATUS,
+                        'id' => $row->status,
                     ),
                 );
 
-                $sub_data['USER_ACTIVE'] = array(
+                $sub_data['user_active'] = array(
                     "display" => $user_active,
                     "data" => array(
                         'id' => $user_active_id,
                     ),
                 );
 
-                $sub_data['DATE_ACTIVE'] = array(
-                    "display" => toThaiDateTimeString($query_date, 'datetime'),
+                $sub_data['date_active'] = array(
+                    "display" => toDateTimeString($query_date, 'datetimehm'),
                     "timestamp" => date('Y-m-d H:i:s', strtotime($query_date))
                 );
 

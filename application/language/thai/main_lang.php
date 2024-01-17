@@ -39,3 +39,4 @@
 	$lang['_remark'] = "หมายเหตุ";
 	$lang['_manby'] = "โดยล่าสุด";
 	$lang['_dateby'] = "วันล่าสุด";
+	$lang['_text_edit'] = "(แก้ไข)";

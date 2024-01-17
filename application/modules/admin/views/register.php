@@ -43,26 +43,26 @@
             },
             order: [[ 4, 'asc' ]],
             columns: [{
-                    "data": "ROLE",
+                    "data": "role",
                 },
                 {
-                    "data": "NAME",
+                    "data": "name",
                 },
                 {
-                    "data": "LASTNAME"
+                    "data": "lastname"
                 },
                 {
-                    "data": "USERNAME"
+                    "data": "username"
                 },
                 {
-                    "data": "DATE_START_TEXT"
+                    "data": "date_start_text"
                 },
                 {
-                    "data": "VERIFY"
+                    "data": "verify"
                 },
             ],
             "createdRow": function(row, data, index) {
-                let table_btn_verify = `<button type="button" class="btn btn-warning btn_verify" data-id="${data['ID']}" data-username="${data['USERNAME']}" data-name="${data['NAME']}" data-lastname="${data['LASTNAME']}">อนุญาต</button>`
+                let table_btn_verify = `<button type="button" class="btn btn-warning btn_verify" data-id="${data['id']}" data-username="${data['username']}" data-name="${data['name']}" data-lastname="${data['lastname']}">อนุญาต</button>`
                 $('td', row).eq(5).html(table_btn_verify)
 
             },

@@ -171,20 +171,20 @@
     //  *
     function modalActive(data = [], action = 'view') {
         if (data) {
-            if (action != 'add' && data.NAME) {
-                let header = data.NAME
+            if (action != 'add' && data.name) {
+                let header = data.name
                 $(modal).find('.modal_text_header').html(header)
             }
 
             switch (action) {
                 case 'view':
                     $('.form-group')
-                        .find('.name_th').text(data.NAME).end()
-                        .find('.name_us').text(data.NAME_US).end()
-                        .find('.lastname_th').text(data.LASTNAME).end()
-                        .find('.lastname_us').text(data.LASTNAME_US).end()
-                        .find('.username').text(data.USERNAME).end()
-                        .find('.jstree-grid-container').html(data.PERMIT_HTML).end()
+                        .find('.name_th').text(data.name).end()
+                        .find('.name_us').text(data.name_us).end()
+                        .find('.lastname_th').text(data.lastname).end()
+                        .find('.lastname_us').text(data.lastname_us).end()
+                        .find('.username').text(data.username).end()
+                        .find('.jstree-grid-container').html(data.permit_html).end()
 
                     // create role
                     create_html_select2()
@@ -195,8 +195,8 @@
                         let data_array_html = ""
                         await new Promise((resolve, reject) => {
                             resolve(
-                                data.ROLES.map(function(item) {
-                                    data_array_html += create_html_roles(textCapitalize(item.ROLES_CODE))
+                                data.roles.map(function(item) {
+                                    data_array_html += create_html_roles(textCapitalize(item.roles_code))
                                 })
                             )
                         })
@@ -208,7 +208,7 @@
                     break
                 case 'edit':
                     $(modal_body_form)
-                        .find('[name=label_1]').val(data[0].WORKSTATUS).end()
+                        .find('[name=label_1]').val(data[0].workstatus).end()
 
                     break
                 default:
@@ -232,7 +232,7 @@
                 let item_id
 
                 resp.map(function(item) {
-                    item_value = textCapitalize(item.CODE)
+                    item_value = textCapitalize(item.code)
                     item_id = item.ID
                     data_array += `<option value="${item_id}">${item_value}</option>`
                 })

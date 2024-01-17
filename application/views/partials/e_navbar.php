@@ -48,6 +48,23 @@
                  overflow: hidden;
                  text-overflow: ellipsis;
              }
+
+             [role=button] {
+                 cursor: pointer
+             }
+
+             .text-truncate-row-2 {
+                 -webkit-line-clamp: 3;
+                 display: -webkit-box;
+                 -webkit-box-orient: vertical;
+                 overflow: hidden;
+             }
+             .text-truncate-row-3 {
+                 -webkit-line-clamp: 3;
+                 display: -webkit-box;
+                 -webkit-box-orient: vertical;
+                 overflow: hidden;
+             }
          </style>
 
          <input type="hidden" id="hidden_user_id" value="<?= $this->session->userdata('user_code'); ?>">

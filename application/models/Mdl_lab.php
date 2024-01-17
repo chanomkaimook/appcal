@@ -241,14 +241,6 @@ class Mdl_lab extends CI_Model
             return $return;
         }
 
-        $array_chk_dup2 = array(
-            'name' => $item_name,
-            'status' => 1
-        );
-        if ($return = $this->check_dup($array_chk_dup2, $item_name)) {
-            return $return;
-        }
-
         $new_id = "";
 
         if ($data_insert && is_array($data_insert)) {
@@ -297,10 +289,6 @@ class Mdl_lab extends CI_Model
             );
 
             if ($return = $this->check_value_valid($array_chk_dup)) {
-                return $return;
-            }
-
-            if ($return = $this->check_dup($array_chk_dup, $item_name)) {
                 return $return;
             }
 
@@ -438,6 +426,8 @@ class Mdl_lab extends CI_Model
 
         if ($optionnal['select']) {
             $sql->select($optionnal['select']);
+        }else{
+            $sql->select($this->table.'.*');
         }
 
         if ($optionnal['where'] && count($optionnal['where'])) {
@@ -469,18 +459,41 @@ class Mdl_lab extends CI_Model
             }
             if ($request['order'][0]['dir'] && $item_column) {
                 // for value_active
-                /* if ($item_column == "user_active") {
-                    $sql->join('staff', $this->table . '.user_start=staff.id', 'left');
-                } */
+                $next = 1;
+                if ($item_column == "user_active") {
+                    $sql->join('staff', $this->table . '.user_starts=staff.id', 'left');
+                    $sql->join('employee', 'staff.employee_id=employee.id', 'left');
+
+                    if($_COOKIE['langadmin'] == 'thai'){
+                        $item_column = "name";
+                    }else{
+                        $item_column = "name_us";
+                    }
+
+                    $sql->order_by(
+                        'CASE WHEN employee.'.$item_column.' is not null
+                        THEN employee.'.$item_column.'
+                        ELSE employee.name
+                        END ' . $request['order'][0]['dir'],
+                        null,
+                        false
+                    );
+
+                    $next = 0;
+                }
                 if ($item_column == "date_active") {
-                    // SELECT * FROM `lab` WHERE `lab`.`status` = 1 ORDER BY CASE WHEN lab.date_update is not null THEN lab.date_update ELSE lab.date_starts END DESC LIMIT 10;
-                    /* $sql->order_by(
-                        'CASE WHEN '.$this->table.'.date_update 
-                        THEN '.$this->table.'.date_update '.$request['order'][0]['dir'].'
-                        ELSE '.$this->table.'.date_starts '.$request['order'][0]['dir']
-                    ,null,false); */
-                } else {
-                    $sql->order_by($this->table . '.' . $item_column, $request['order'][0]['dir']);
+                    $sql->order_by(
+                        'CASE WHEN ' . $this->table . '.date_update is not null
+                        THEN ' . $this->table . '.date_update
+                        ELSE ' . $this->table . '.date_starts
+                        END ' . $request['order'][0]['dir'],
+                        null,
+                        false
+                    );
+                    $next = 0;
+                }
+                if($next == 1){
+                    $sql->order_by($this->table . '.'.$item_column, $request['order'][0]['dir']);
                 }
             } else {
                 $sql->order_by($this->table . '.id', 'desc');

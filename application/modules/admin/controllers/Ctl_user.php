@@ -40,7 +40,7 @@ class Ctl_user extends MY_Controller
 
         // setting
         $this->model = $this->$modelname;
-        $this->title = $this->lang->line('__menu_users');
+        $this->title = mb_ucfirst($this->lang->line('__menu_users'));
     }
 
     public function index()
@@ -94,48 +94,47 @@ class Ctl_user extends MY_Controller
         if ($data) {
             foreach ($data as $row) {
 
-                $user_active_id = $row->USER_STARTS ? $row->USER_STARTS : $row->USER_UPDATE;
+                $user_active_id = $row->user_starts ? $row->user_starts : $row->user_update;
+                $user_active = whois($user_active_id);
 
-                if ($row->DATE_UPDATE) {
-                    $query_date = $row->DATE_UPDATE;
-                    $user_active = "(แก้) " . whois($row->USER_UPDATE);
+                if ($row->date_update) {
+                    $query_date = $row->date_update;
+                    $user_active = $this->lang->line('_text_edit') . " " . $user_active;
                 } else {
-                    $query_date = $row->DATE_STARTS;
-                    $user_active =  whois($row->USER_STARTS);
+                    $query_date = $row->date_starts;
                 }
 
-
-                $dom_status = status_online($row->STATUS);
+                $dom_status = status_online($row->status);
 
                 $sub_data = [];
-                $date_start = toDateTimeString($row->DATE_STARTS, 'datetime');
-                $date_update = textNull($row->DATE_UPDATE) ? toDateTimeString($row->DATE_UPDATE, 'datetime') : null;
+                $date_start = toDateTimeString($row->date_starts, 'datetimehm');
+                $date_update = textNull($row->date_update) ? toDateTimeString($row->date_update, 'datetimehm') : null;
 
-                $sub_data['ID'] = $row->ID;
-                $sub_data['NAME'] = textLang($row->NAME, $row->NAME_US, false);
-                $sub_data['LASTNAME'] = textLang($row->LASTNAME, $row->LASTNAME_US, false);
-                $sub_data['USERNAME'] = $row->USERNAME;
-                $sub_data['DATE_STARTS'] = array(
+                $sub_data['id'] = $row->id;
+                $sub_data['name'] = textLang($row->name, $row->name_us, false);
+                $sub_data['lastname'] = textLang($row->lastname, $row->lastname_us, false);
+                $sub_data['username'] = $row->username;
+                $sub_data['date_starts'] = array(
                     "display"   => $date_start,
-                    "timestamp" => date('Y-m-d H:i:s', strtotime($row->DATE_STARTS))
+                    "timestamp" => date('Y-m-d H:i:s', strtotime($row->date_starts))
                 );
 
-                $sub_data['DATE_ACTIVE'] = array(
+                $sub_data['date_active'] = array(
                     "display"   => $date_update,
-                    "timestamp" => date('Y-m-d H:i:s', strtotime($row->DATE_UPDATE))
+                    "timestamp" => date('Y-m-d H:i:s', strtotime($row->date_update))
                 );
 
-                $sub_data['USER_ACTIVE'] = array(
+                $sub_data['user_active'] = array(
                     "display"   => $user_active,
                     "data"   => array(
                         'id'    => $user_active_id,
                     ),
                 );
 
-                $sub_data['STATUS'] = array(
+                $sub_data['status'] = array(
                     "display"   => $dom_status,
                     "data"   => array(
-                        'id'    => $row->STATUS,
+                        'id'    => $row->status,
                     ),
                 );
 
@@ -187,18 +186,20 @@ class Ctl_user extends MY_Controller
 
         if ($array_permit_only) {
             foreach ($array_permit_only as $index => $column) {
-                $key_name = $column['MENUS_CODE'];
+                $key_name = $column['menus_code'];
                 $permit_all[$key_name][] = $array_permit_only[$index];
             }
         }
 
-        if ($data) {
-            $data->PERMIT = $permit_all;
-            $data->PERMIT_HTML = html_roles_jstree($permit_all);
-            $data->ROLES = $array_roles_child;
-            $data->PERMIT_NOROLE = $array_permit_only;
+        if($data){
+            $data->permit = $permit_all;
+            $data->permit_html = html_roles_jstree($permit_all);
+            $data->roles = $array_roles_child;
+            $data->permit_norole = $array_permit_only;
         }
-
+        // echo "<pre>";
+        // print_r($data);
+        // echo "---------------------------";
         $result = $data;
         echo json_encode($result);
     }

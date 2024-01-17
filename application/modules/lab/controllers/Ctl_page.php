@@ -31,7 +31,7 @@ class Ctl_page extends MY_Controller
 
         // setting
         $this->model = $this->$modelname;
-        $this->title = 'ข้อมูลห้อง Lab';
+        $this->title = mb_ucfirst($this->lang->line('__menu_lab'));
     }
 
     public function index()
@@ -86,48 +86,42 @@ class Ctl_page extends MY_Controller
         if ($data) {
             foreach ($data as $row) {
 
-                $user_active_id = $row->USER_STARTS ? $row->USER_STARTS : $row->USER_UPDATE;
+                $user_active_id = $row->user_starts ? $row->user_starts : $row->user_update;
                 $user_active = whois($user_active_id);
 
-                if ($row->DATE_UPDATE) {
-                    $query_date = $row->DATE_UPDATE;
-                    $user_active = "(แก้) " . $user_active;
+                if ($row->date_update) {
+                    $query_date = $row->date_update;
+                    $user_active = $this->lang->line('_text_edit') . " " . $user_active;
                 } else {
-                    $query_date = $row->DATE_STARTS;
+                    $query_date = $row->date_starts;
                 }
 
-                $dom_workstatus = workstatus($row->WORKSTATUS, 'status');
-                $dom_status = status_offview($row->STATUS_OFFVIEW);
+                $dom_workstatus = workstatus($row->workstatus, 'status');
+                $dom_status = status_offview($row->status_offview);
 
                 $sub_data = [];
 
-                $sub_data['ID'] = $row->ID;
-                $sub_data['CODE'] = textShow($row->CODE);
-                $sub_data['NAME'] = textLang($row->NAME, $row->NAME_US, false);
+                $sub_data['id'] = $row->id;
+                $sub_data['code'] = textShow($row->code);
+                $sub_data['name'] = textLang($row->name, $row->name_us, false);
+                $sub_data['projectcode'] = textShow($row->projectcode);
 
-                $sub_data['WORKSTATUS'] = array(
-                    "display"   => $dom_workstatus,
-                    "data"      =>  array(
-                        'id'    => $row->WORKSTATUS,
-                    ),
-                );
-
-                $sub_data['STATUS'] = array(
+                $sub_data['status'] = array(
                     "display"   => $dom_status,
                     "data"   => array(
-                        'id'    => $row->STATUS_OFFVIEW,
+                        'id'    => $row->status_offview,
                     ),
                 );
 
-                $sub_data['USER_ACTIVE'] = array(
+                $sub_data['user_active'] = array(
                     "display"   => $user_active,
                     "data"   => array(
                         'id'    => $user_active_id,
                     ),
                 );
 
-                $sub_data['DATE_ACTIVE'] = array(
-                    "display"   => toDateTimeString($query_date, 'datetime'),
+                $sub_data['date_active'] = array(
+                    "display"   => toDateTimeString($query_date, 'datetimehm'),
                     "timestamp" => date('Y-m-d H:i:s', strtotime($query_date))
                 );
 
@@ -157,23 +151,45 @@ class Ctl_page extends MY_Controller
         $data = $this->model->get_data($item_id);
 
         if ($data) {
-            $user_active_id = $data->USER_STARTS ? $data->USER_STARTS : $data->USER_UPDATE;
-            $user_active = whois($user_active_id);
+            if (is_array($data)) {
+                $data_foreach = [];
+                foreach ($data as $key => $row) {
+                    $data_foreach[$key] = $this->previewData($row);
+                }
 
-            if ($data->DATE_UPDATE) {
-                $query_date = $data->DATE_UPDATE;
-                $user_active = "(แก้) " . $user_active;
+                $data = $data_foreach;
             } else {
-                $query_date = $data->DATE_STARTS;
+                $data = $this->previewData($data);
             }
-
-            $data->USER_ACTIVE_ID = $user_active_id;
-            $data->USER_ACTIVE = $user_active;
-            $data->DATE_ACTIVE = toDateTimeString($query_date, 'datetime');
         }
 
         $result = $data;
         echo json_encode($result);
+    }
+    
+    function previewData($datas)
+    {
+        $result = "";
+
+        if ($datas) {
+            $user_active_id = $datas->user_starts ? $datas->user_starts : $datas->user_update;
+            $user_active = whois($user_active_id);
+
+            if ($datas->date_update) {
+                $query_date = $datas->date_update;
+                $user_active = $this->lang->line('_text_edit') . " " . $user_active;
+            } else {
+                $query_date = $datas->date_starts;
+            }
+
+            $datas->user_active_id = $user_active_id;
+            $datas->user_active = $user_active;
+            $datas->date_active = toDateTimeString($query_date, 'datetimehm');
+
+            $result = $datas;
+        }
+
+        return $result;
     }
 
     //  *
@@ -215,7 +231,19 @@ class Ctl_page extends MY_Controller
         # code...
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
 
-            $returns = $this->model->update_data();
+            $request = $_REQUEST;
+            $item_id = textNull($request['item_id']) ? $request['item_id'] : null;
+            $data = array(
+                'code'        => textNull($request['code']) ? $request['code'] : null,
+                'depcode'     => textNull($request['depcode']) ? $request['depcode'] : null,
+                'name'        => textNull($request['name']) ? $request['name'] : null,
+                'name_us'       => textNull($request['name_us']) ? $request['name_us'] : null,
+                'intervaltime'  => textNull($request['intervaltime']) ? $request['intervaltime'] : null,
+                'projectcode'   => textNull($request['projectcode']) ? $request['projectcode'] : null,
+                'remark'        => textNull($request['remark']) ? $request['remark'] : null
+            );
+
+            $returns = $this->model->update_data($data, $item_id);
             echo json_encode($returns);
         }
     }

@@ -25,7 +25,7 @@ class Ctl_roles extends MY_Controller
 
         // setting
         $this->model = $this->$modelname;
-        $this->title = $this->lang->line('__menu_settingroles');
+        $this->title = mb_ucfirst($this->lang->line('__menu_settingroles'));
     }
 
     public function index()
@@ -85,49 +85,49 @@ class Ctl_roles extends MY_Controller
         if ($data) {
             foreach ($data as $row) {
 
-                $user_active_id = $row->USER_STARTS ? $row->USER_STARTS : $row->USER_UPDATE;
+                $user_active_id = $row->user_starts ? $row->user_starts : $row->user_update;
+                $user_active = whois($user_active_id);
 
-                if ($row->DATE_UPDATE) {
-                    $query_date = $row->DATE_UPDATE;
-                    $user_active = "(แก้) " . whois($row->USER_UPDATE);
+                if ($row->date_update) {
+                    $query_date = $row->date_update;
+                    $user_active = $this->lang->line('_text_edit') . " " . $user_active;
                 } else {
-                    $query_date = $row->DATE_STARTS;
-                    $user_active =  whois($row->USER_STARTS);
+                    $query_date = $row->date_starts;
                 }
 
                 // $dom_workstatus = workstatus($row->WORKSTATUS, 'status');
                 $dom_workstatus = "--";
-                $dom_status = status_offview($row->STATUS_OFFVIEW);
+                $dom_status = status_offview($row->status_offview);
 
                 $sub_data = [];
 
-                $sub_data['ID'] = $row->ID;
-                $sub_data['CODE'] = textNull($row->CODE);
-                $sub_data['NAME'] = textLang($row->NAME, $row->NAME_US);
+                $sub_data['id'] = $row->id;
+                $sub_data['code'] = textNull($row->code);
+                $sub_data['name'] = textLang($row->name, $row->name_us);
 
-                $sub_data['WORKSTATUS'] = array(
+                $sub_data['workstatus'] = array(
                     "display"   => $dom_workstatus,
                     "data"      =>  array(
                         'id'    => 0,
                     ),
                 );
 
-                $sub_data['STATUS'] = array(
+                $sub_data['status'] = array(
                     "display"   => $dom_status,
                     "data"   => array(
-                        'id'    => $row->STATUS_OFFVIEW,
+                        'id'    => $row->status_offview,
                     ),
                 );
 
-                $sub_data['USER_ACTIVE'] = array(
+                $sub_data['user_active'] = array(
                     "display"   => $user_active,
                     "data"   => array(
                         'id'    => $user_active_id,
                     ),
                 );
 
-                $sub_data['DATE_ACTIVE'] = array(
-                    "display"   => toThaiDateTimeString($query_date, 'datetime'),
+                $sub_data['date_active'] = array(
+                    "display"   => toDateTimeString($query_date, 'datetimehm'),
                     "timestamp" => date('Y-m-d H:i:s', strtotime($query_date))
                 );
 
@@ -163,9 +163,9 @@ class Ctl_roles extends MY_Controller
         $permit_all = array_merge($array_permit,$array_permit_inchild);
 
         $data = $this->model->get_data($item_id);
-        $data->PERMIT = $permit_all;
-        $data->PERMIT_HTML = html_roles_jstree($permit_all);
-        $data->ROLES = $array_roles_child;
+        $data->permit = $permit_all;
+        $data->permit_html = html_roles_jstree($permit_all);
+        $data->roles = $array_roles_child;
 
         // echo html_roles_jstree($array_permit);die;
         $result = $data;
@@ -209,8 +209,8 @@ class Ctl_roles extends MY_Controller
         }
 
         $data = $this->model->get_data($item_id);
-        $data->PERMIT = $permit_all;
-        $data->PERMIT_HTML = html_roles_jstree($permit_all);
+        $data->permit = $permit_all;
+        $data->permit_html = html_roles_jstree($permit_all);
 
         // echo html_roles_jstree($array_permit);die;
         $result = $data;

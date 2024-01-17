@@ -15,11 +15,11 @@ function status_offview(int $status = null, array $optional = ['html' => true])
 
   # code...
 
-  $text = 'ปกติ';
+  $text = textLang("ปกติ","On");
   $result = '<span class="text-success">' . $text . '</span>';
 
   if ($status == 1) {
-    $text = 'ซ่อน';
+    $text = textLang("ซ่อน","Hide");
     $result = '<span class="text-warning">' . $text . '</span>';
   }
 
@@ -94,25 +94,40 @@ function workstatus(int $status = null, string $text = null, array $optional = [
   $ci->load->database();
 
   # code...
-
+  
   switch ($status) {
     case 1:
+      if(!$text){
+        $text = textLang("รอ","pending");
+      }
       $result = '<span class="badge badge-primary"> ' . $text . ' </span>';
       break;
     case 2:
+      if(!$text){
+        $text = textLang("กำลัง","process");
+      }
       $result = '<span class="badge badge-warning"> ' . $text . ' </span>';
       break;
     case 3:
+      if(!$text){
+        $text = textLang("สำเร็จ","success");
+      }
       $result = '<span class="badge badge-success"> ' . $text . ' </span>';
       break;
     case 4:
+      if(!$text){
+        $text = textLang("ยกเลิก","cancel");
+      }
       $result = '<span class="badge badge-danger"> ' . $text . ' </span>';
       break;
     case 5:
+      if(!$text){
+        $text = textLang("ลบ","delete");
+      }
       $result = '<span class="badge badge-muted"> ' . $text . ' </span>';
       break;
     default:
-      $result = '<span class="badge badge-primary">' . $text . '</span>';
+      $result = '';
       break;
   }
 
@@ -151,9 +166,9 @@ function html_roles_jstree(array $array = null, string $classplugin = "jstree")
       $li_permit = '';
 
       foreach ($array_one as $key => $array_two) {
-        $permit_id = $array_two['ID'];
-        $permit_name = textLang($array_two['NAME'], $array_two['NAME_US']);
-        $menus_name = textLang($array_two['MENUS_NAME'], $array_two['MENUS_NAME_US']);
+        $permit_id = $array_two['id'];
+        $permit_name = textLang($array_two['name'], $array_two['name_us']);
+        $menus_name = textLang($array_two['menus_name'], $array_two['menus_name_us']);
 
         $li_permit .= '<li data-jstree=\'{"icon":"mdi mdi-file-outline"}\' 
         data-id="' . $permit_id . '">' . $permit_name . '</li>';

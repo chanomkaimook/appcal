@@ -99,35 +99,35 @@
                 },
             ],
             columns: [{
-                    "data": "EMPLOYEE.data.id",
+                    "data": "employee.data.id",
                     "width": "60px",
                 },
                 {
-                    "data": "EMPLOYEE.display",
+                    "data": "employee.display",
                     "width": "120px",
                 },
                 {
-                    "data": "EMPLOYEE.data.email",
+                    "data": "employee.data.email",
                 },
                 {
-                    "data": "EMPLOYEE.data.tel",
+                    "data": "employee.data.tel",
                 },
                 {
-                    "data": "EMPLOYEE.data.worktype",
+                    "data": "employee.data.worktype",
                 },
                 {
                     "data": {
-                        _: 'USER_ACTIVE.display', // default show
+                        _: 'user_active.display', // default show
                     }
                 },
                 {
                     "data": true,
                     "render": function(data, type, row, meta) {
-                        let btn_view = `<a data-id="${data}" class="btn-view dropdown-item" href="#" data-code="${row.CODE}" ><i class="mdi mdi-magnify mr-2 text-info font-18 vertical-middle"></i>รายละเอียด</a>`
+                        let btn_view = `<a data-id="${data}" class="btn-view dropdown-item" href="#" data-code="${row.code}" ><i class="mdi mdi-magnify mr-2 text-info font-18 vertical-middle"></i>รายละเอียด</a>`
                         let btn_edit = `<a data-id="${data}" class="btn-edit dropdown-item" href="#"><i class="mdi mdi-wrench mr-2 text-warning font-18 vertical-middle"></i>แก้ไข</a>`
                         let btn_del = `<a data-id="${data}" class="btn-del dropdown-item" href="#" ><i class="mdi mdi-delete mr-2 text-danger font-18 vertical-middle"></i>ลบรายการ</a>`
 
-                        if (row.STATUS.data.id == 1) {
+                        if (row.status.data.id == 1) {
                             btn_edit = ''
                         }
 

@@ -17,11 +17,17 @@ class mdl_login extends CI_Model
             $user_password = md5(trim($this->input->post('user_password')));
 
             $sql = $this->db->select('
- 
+                employee.id as employee_id,
+                employee.name as name,
+                employee.lastname as lastname,
+                employee.department as department,
+                employee.section as section,
 
-                staff.ID as ID,
-                staff.USERNAME as USERNAME,
-                staff.DATE_STARTS as DATE_STARTS
+                staff.id as id,
+                staff.username as username,
+                staff.date_starts as date_starts,
+                section.id as section_id,
+                department.id as department_id,
             ')
                 // ->join('employee', 'staff.employee_id = employee.id', 'left')
                 // ->join('section', 'section.name = employee.section', 'left')
@@ -36,9 +42,9 @@ class mdl_login extends CI_Model
             if ($number == 1) {
                 $row = $sql->row();
 
-                $staff_id = $row->ID;
+                $staff_id = $row->id;
 
-                if (strnatcmp($user_name, $row->USERNAME) == 0) {
+                if (strnatcmp($user_name, $row->username) == 0) {
 
                     //
                     // update status to normal (1)

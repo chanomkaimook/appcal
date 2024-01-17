@@ -66,13 +66,13 @@ class Ctl_login extends MY_Controller
             if ($result['error'] == 0) {
                 if ($result['data']) {
                     $session = array(
-                        'user_code' => $result['data']->ID,
-                        'user_emp' => $result['data']->EMPLOYEE_ID,
-                        'user_name' => $result['data']->NAME . " " . $result['data']->LASTNAME,
-                        'department' => $result['data']->DEPARTMENT,
-                        'department_id' => $result['data']->DEPARTMENT_ID,
-                        'section' => $result['data']->SECTION,
-                        'section_id' => $result['data']->SECTION_ID,
+                        'user_code' => $result['data']->id,
+                        'user_emp' => $result['data']->employee_id,
+                        'user_name' => $result['data']->name . " " . $result['data']->lastname,
+                        'department'    => $result['data']->department,
+                        'department_id' => $result['data']->department_id,
+                        'section'       => $result['data']->section,
+                        'section_id'    => $result['data']->section_id,
 
                         'authorization' => $result['token'],
                     );

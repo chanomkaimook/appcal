@@ -3,12 +3,12 @@
         let datatable = $('#datatable')
 
         let last_columntable = datatable.find('th').length - 1
-        let last_defaultSort = last_columntable - 3
+        let last_defaultWidth = last_columntable - 3
         let column_last_array = t()
 
         function t() {
             let r = []
-            for (var i = last_defaultSort; i <= last_columntable; i++) {
+            for (var i = last_defaultWidth; i <= last_columntable; i++) {
                 r.push(i)
             }
             return r
@@ -46,7 +46,7 @@
                     value: {
                         0: 'code',
                         1: 'name',
-                        2: 'status',
+                        2: 'projectcode',
                         3: 'user_active',
                         4: 'date_active'
                     }
@@ -62,7 +62,7 @@
                     targets: last_columntable
                 },
                 {
-                    "targets": [0],
+                    "targets": [0, 1],
                     "className": "truncate",
                 },
                 {
@@ -71,16 +71,16 @@
                 },
             ],
             columns: [{
-                    "data": "CODE",
+                    "data": "code",
                     "width": "60px",
                     "render": function(data, type, row, meta) {
                         let code = data
                         let url_doc_bill = new URL(path(url_moduleControl + '/document'), domain)
                         url_doc_bill.searchParams.append('code', code)
 
-                        code = `<a href=# class="text-info" data-id="${row.ID}">
+                        code = `<div class="w-100 text-info" data-id="${row.id}" role="button">
                         ${data}
-                        </a> `
+                        </div>`
 
                         if (!code) {
                             code = ""
@@ -89,34 +89,34 @@
                     }
                 },
                 {
-                    "data": "NAME",
+                    "data": "name",
                     "width": "",
                     "createdCell": function(td, cellData, rowData, row, col) {
                         $(td).css('min-width', '150px')
                     }
                 },
                 {
-                    "data": "WORKSTATUS.display",
+                    "data": "projectcode"
                 },
                 {
                     "data": {
-                        _: 'USER_ACTIVE.display', // default show
+                        _: 'user_active.display', // default show
                     }
                 },
                 {
                     "data": {
-                        _: 'DATE_ACTIVE.display', // default show
-                        sort: 'DATE_ACTIVE.timestamp'
+                        _: 'date_active.display', // default show
+                        sort: 'date_active.timestamp'
                     }
                 },
                 {
-                    "data": "ID",
+                    "data": "id",
                     "render": function(data, type, row, meta) {
-                        let btn_view = `<a data-id="${data}" class="btn-view text-capitalize dropdown-item" href="#" data-code="${row.CODE}" ><i class="mdi mdi-magnify mr-2 text-info font-18 vertical-middle"></i>${table_column_view[setlang]}</a>`
+                        let btn_view = `<a data-id="${data}" class="btn-view text-capitalize dropdown-item" href="#" data-code="${row.code}" ><i class="mdi mdi-magnify mr-2 text-info font-18 vertical-middle"></i>${table_column_view[setlang]}</a>`
                         let btn_edit = `<a data-id="${data}" class="btn-edit text-capitalize dropdown-item" href="#"><i class="mdi mdi-wrench mr-2 text-warning font-18 vertical-middle"></i>${table_column_edit[setlang]}</a>`
                         let btn_del = `<a data-id="${data}" class="btn-del text-capitalize dropdown-item" href="#" ><i class="mdi mdi-delete mr-2 text-danger font-18 vertical-middle"></i>${table_column_del[setlang]}</a>`
 
-                        if (row.STATUS.data.id == 1) {
+                        if (row.status.data.id == 1) {
                             btn_edit = ''
                         }
 
