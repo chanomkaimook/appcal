@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Mdl_procedure extends CI_Model
+class Mdl_condition extends CI_Model
 
 {
-    private $table = "calprocedure";
+    private $table = "cercondition";
     private $offview = "";
     private $fildstatus = "status";
 

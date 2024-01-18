@@ -56,7 +56,7 @@ class Ctl_procedure extends MY_Controller
                 )
             )
         ); */
-        $this->template->build('pages/index');
+        $this->template->build('procedure/index');
     }
     /**
      *
@@ -94,26 +94,19 @@ class Ctl_procedure extends MY_Controller
                     $query_date = $row->date_starts;
                 }
 
-                $dom_workstatus = workstatus($row->workstatus);
-                $dom_status = status_offview($row->status_offview);
+                $dom_status = status_online($row->status);
 
                 $sub_data = [];
 
                 $sub_data['id'] = $row->id;
-                $sub_data['code'] = textShow($row->code);
-                $sub_data['name'] = textLang($row->name, $row->name_us, false);
+                $sub_data['code'] = textShow($row->calprocedurecode);
+                $sub_data['name'] = textShow($row->calprocedurename);
 
-                $sub_data['workstatus'] = array(
-                    "display"   => $dom_workstatus,
-                    "data"      =>  array(
-                        'id'    => $row->workstatus,
-                    ),
-                );
 
                 $sub_data['status'] = array(
                     "display"   => $dom_status,
                     "data"   => array(
-                        'id'    => $row->status_offview,
+                        'id'    => $row->status,
                     ),
                 );
 

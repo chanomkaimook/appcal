@@ -38,7 +38,27 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="table">
-                            Calibration
+
+                            <form id="frm_cert">
+                                <div class="form-group">
+                                    <label>Procedure</label>
+
+                                    <select id="procedure_id"class="form-control" required>
+                                        <option value="" disabled selected>ระบุ</option>
+                                        <?php
+                                        if($data_procedure){
+                                            foreach($data_procedure as $row_procedure){
+                                                echo "<option value='$row_procedure->id' class='text-truncate'>$row_procedure->calprocedurename</option>";
+                                            }
+                                        }
+                                            
+                                        ?>
+                                    </select>
+                                </div>
+                            </form>
+
+
+
                         </div>
                         <div class="tab-pane" id="overview">
                             Reference Standard

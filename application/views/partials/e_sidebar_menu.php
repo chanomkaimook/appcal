@@ -64,8 +64,9 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
-                            <li class=""><a href="<?= site_url('certificate/ctl_page'); ?>" data-show="Procedure">Procedure</a></li>
-                            <li class=""><a href="<?= site_url('sublab/ctl_page'); ?>" data-show="Condition">Condition</a></li>
+                            <li class=""><a href="<?= site_url('certificate/ctl_page'); ?>" data-show="Certificate">Certificate</a></li>
+                            <li class=""><a href="<?= site_url('certificate/ctl_procedure'); ?>" data-show="Procedure">Procedure</a></li>
+                            <li class=""><a href="<?= site_url('certificate/ctl_condition'); ?>" data-show="Condition">Condition</a></li>
                         </ul>
                     </li>
 

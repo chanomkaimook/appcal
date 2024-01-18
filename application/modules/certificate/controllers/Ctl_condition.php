@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // require APPPATH . '/libraries/API_Controller.php';
 
-class Ctl_page extends MY_Controller
+class Ctl_condition extends MY_Controller
 {
 
     private $model;
@@ -12,9 +12,8 @@ class Ctl_page extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $modelname = 'mdl_page';
-        $this->load->model(array('page/' . $modelname));
-        $this->load->model(array('certificate/mdl_procedure'));
+        $modelname = 'mdl_condition';
+        $this->load->model(array('certificate/' . $modelname));
 
         $this->middleware(
             array(
@@ -37,7 +36,7 @@ class Ctl_page extends MY_Controller
 
     public function index()
     {
-        $data['data_procedure'] = $this->mdl_procedure->get_data();
+        $data['data_condition'] = $this->mdl_condition->get_data();
         $this->template->set_layout('lay_datatable');
         $this->template->title($this->title);
         /* $this->template->set_partial(
@@ -58,7 +57,7 @@ class Ctl_page extends MY_Controller
                 )
             )
         ); */
-        $this->template->build('pages/index',$data);
+        $this->template->build('condition/index',$data);
     }
     /**
      *
