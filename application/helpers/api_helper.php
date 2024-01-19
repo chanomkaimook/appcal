@@ -13,7 +13,7 @@ if (!function_exists('insert')) {
 function page_params($total_rows = 0)
 {
   $page = isset($_GET['page']) ? $_GET['page'] : 1;
-  $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
+  $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 50;
   $total_pages = ceil($total_rows / $per_page);
   if ($page < 1) {
     $page = 1;

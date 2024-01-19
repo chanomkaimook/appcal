@@ -307,9 +307,8 @@ class Bill extends API_Controller
   {
     $this->_apiConfig([
       'methods'              => ['GET'],
-      //'requireAuthorization' => true,
+      'requireAuthorization' => false,
     ]);
-
     if ($id) {
       $items = $this->bill_model->getById($id);
       return $this->api_return($items, 200);
@@ -685,7 +684,7 @@ class Bill extends API_Controller
    *     path="/bill/item/{item_id}/tracking-complete",
    *     tags={"bill"},
    *     summary="เพิ่มสถานะความคืบหน้า เสร็จแล้ว (Tracking System)",
-   *   @OA\Parameter(name="id",
+   *   @OA\Parameter(name="item_id",
    *     in="path",
    *     required=true,
    *     @OA\Schema(type="number")

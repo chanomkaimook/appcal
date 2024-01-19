@@ -29,9 +29,9 @@ class mdl_login extends CI_Model
                 section.id as section_id,
                 department.id as department_id,
             ')
-                // ->join('employee', 'staff.employee_id = employee.id', 'left')
-                // ->join('section', 'section.name = employee.section', 'left')
-                // ->join('department', 'department.name = employee.department', 'left')
+                ->join('employee', 'staff.employee_id = employee.id', 'left')
+                ->join('section', 'section.name = employee.section', 'left')
+                ->join('department', 'department.name = employee.department', 'left')
                 ->where('staff.username', $user_name)
                 ->where('staff.password', $user_password)
                 ->where('staff.verify is not null', null, false)

@@ -22,8 +22,8 @@ class Auth extends API_Controller
         $this->_apiConfig([
             'methods' => ['GET'],
             // Request Execute Only POST and GET Method
-            'requireAuthorization' => true,
-            'roles' => ['master_admin', 'admin']
+            'requireAuthorization' => false,
+            // 'roles' => ['master_admin', 'admin']
         ]);
 
         // Data

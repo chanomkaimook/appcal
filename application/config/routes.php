@@ -50,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'login/ctl_login';
+//$route['default_controller'] = 'document/v1';
 $route['404_override'] = 'error_404';
 $route['translate_uri_dashes'] = FALSE;
 
@@ -57,28 +58,12 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['api/v1/test']['get']                                = 'api/auth/index';
 
-// $route['api/v1/bill']['get']                                = 'api/bill/list';
-// $route['api/v1/bill/search']['get']                         = 'api/bill/search';
-// $route['api/v1/bill/mylabs']['get']                         = 'api/bill/mylabs';
-// $route['api/v1/bill/list']['get']                           = 'api/bill/list';
-// $route['api/v1/bill/(:num)']['get']                         = 'api/bill/view/$1';
-// $route['api/v1/bill/(:num)/labs']['get']                    = 'api/bill/labs/$1';
-// $route['api/v1/bill/code/(:any)']['get']                    = 'api/bill/code/$1';
-// $route['api/v1/bill/(:num)/items']['get']                   = 'api/bill/items/$1';
-// $route['api/v1/bill/list_labs']['get']                      = 'api/bill/list_labs';
-// $route['api/v1/bill/progress_status']['get']                = 'api/bill/progress_status';
-// $route['api/v1/bill/(:num)/progress_status']['post']        = 'api/bill/set_progress_status/$1';
-// $route['api/v1/bill/(:num)/progress_complete']['post']      = 'api/bill/set_progress_complete/$1';
-// $route['api/v1/bill/item/tracking-status']['get']           = 'api/bill/tracking_status';
-// $route['api/v1/bill/item/(:num)/tracking-status']['post']   = 'api/bill/set_tracking_status/$1';
-// $route['api/v1/bill/item/(:num)/tracking-complete']['post'] = 'api/bill/set_tracking_complete/$1';
-
-// #ดูข้อมูลติดตามสถานะ traking ใบขอรับบริการ จาก ID
-// $route['api/v1/bill/tracking/(:any)']['get'] = 'api/bill/tracking/$1';
-
-
 /**
  * Module API Routes
  */
-require_once FCPATH . 'application/modules/api/routes/v1/index.php';
-require_once FCPATH . 'application/modules/api/routes/v2/index.php';
+// require_once FCPATH . 'application/modules/api/routes/v1/index.php';
+// require_once FCPATH . 'application/modules/api/routes/v2/index.php';
+
+// echo '<pre>';
+// print_r($route);
+// exit();
