@@ -338,18 +338,21 @@ function check_admin(int $staff_id = null)
  * check value name with permit
  *
  * @param array|string|null $name = value
- * @param array|null $dataarray = if setting this value will not get get_dataPermitSet
+ * @param array|null $dataArray = if setting this value will not get get_dataPermitSet
  * @return boolean
  */
-function can($name = null, array $dataarray = null)
+function can($name = null, array $dataArray = [])
 {
   $ci = &get_instance();
 
   $result = false;
 
-  if (!$dataarray) {
+  if (!$dataArray) {
     $staff_id = userlogin();
-    $dataarray = $ci->permit->get_dataPermitSet($staff_id);
+    if(intval($staff_id < 1)) {
+      return false;
+    }
+    $dataArray = $ci->permit->get_dataPermitSet($staff_id);
   }
 
   if ($name) {
@@ -357,13 +360,13 @@ function can($name = null, array $dataarray = null)
       // loop
       foreach ($name as $value) {
         if ($result != true) {
-          if (method_can($value, $dataarray)) {
+          if (method_can($value, $dataArray)) {
             $result = true;
           }
         }
       }
     } else {
-      if (method_can($name, $dataarray)) {
+      if (method_can($name, $dataArray)) {
         $result = true;
       }
     }
@@ -437,7 +440,7 @@ function userlogin()
   $ci->load->database();
   # code...
 
-  $result = "";
+  $result = 0;
 
   if ($ci->session->userdata('user_code')) {
     $result = $ci->session->userdata('user_code');
@@ -452,10 +455,10 @@ function userlogin()
  * @param array|null $array = role name || permit name 
  * @return void
  */
-function check_permit_groupmenu($array = null)
+function check_permit_groupmenu($array = [])
 {
-
-  if (is_array($array)) {
+  $staff_id = userlogin();
+  if (is_array($array) && !empty($array) && $staff_id) {
 
     $ci = &get_instance();
 
@@ -463,7 +466,7 @@ function check_permit_groupmenu($array = null)
 
     $result = false;
 
-    $staff_id = userlogin();
+
     $dataarray = $ci->permit->get_dataPermitSet($staff_id);
 
     // loop
