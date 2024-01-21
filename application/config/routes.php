@@ -61,9 +61,9 @@ $route['api/v1/test']['get']                                = 'api/auth/index';
 /**
  * Module API Routes
  */
-// require_once FCPATH . 'application/modules/api/routes/v1/index.php';
+require_once FCPATH . 'application/modules/api/routes/v1/index.php';
 // require_once FCPATH . 'application/modules/api/routes/v2/index.php';
 
 // echo '<pre>';
-// print_r($route);
+// @print_r($route);
 // exit();
