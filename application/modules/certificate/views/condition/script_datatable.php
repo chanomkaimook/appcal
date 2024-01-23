@@ -59,10 +59,9 @@
                     value: {
                         0: 'code',
                         1: 'name',
-                        2: 'workstatus',
-                        3: 'status_offview',
-                        4: 'user_active', // find staff to do
-                        5: 'date_active' // find date time to do
+                        2: 'status_offview',
+                        3: 'user_active', // find staff to do
+                        4: 'date_active' // find date time to do
                     }
                 }, ])
             },
@@ -109,9 +108,6 @@
                     "createdCell": function(td, cellData, rowData, row, col) {
                         $(td).css('min-width', '150px')
                     }
-                },
-                {
-                    "data": "workstatus.display",
                 },
                 {
                     "data": "status.display",
