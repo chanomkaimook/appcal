@@ -27,7 +27,7 @@ $root = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . $_SERVER['HTTP_HOS
 $root .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 
 $config['base_url'] = $root . "/";
-// $config['base_url'] = "http://localhost:8000";
+//$config['base_url'] = "http://localhost:9000";
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ $config['index_page'] = '';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol'] = 'AUTO';
+$config['uri_protocol'] = 'PATH_INFO';
 
 /*
 |--------------------------------------------------------------------------
@@ -140,7 +140,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -531,7 +531,7 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 $config['modules_locations'] = array(APPPATH . 'modules/' => '../modules/', );
-
+$config['enable_profiling'] = FALSE;
 
 /**
  * set paramiter for project
