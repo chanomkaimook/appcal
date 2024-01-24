@@ -188,15 +188,18 @@ class Auth extends API_Controller
 
             if ($user) {
                 $user_data = $this->staff_model->getOne($user['id']);
-                unset($user_data['PASSWORD']);
+
                 unset($user_data['password']);
 
                 // $user_data['roles'] = $this->permiss->get_userRole($user['id']);
-                $user_data['permisions'] = $this->permit->get_dataPermitSet($user['id']);
-                // $user_data['labs'] = $this->permiss->get_userlabs($user['id'], $user_data['LAB_ID'], $user_data['SUBLAB_ID']);
+                $permissions = $this->permit->get_dataPermitSet($user['id']);
+                if ($permissions) {
+                    $user_data['permisions'] = $permissions;
+                }
+                //$user_data['labs'] = $this->permiss->get_userlabs($user['id'], $user_data['lab_id'], $user_data['sublab_id']);
 
-                unset($user_data['LAB_ID']);
-                unset($user_data['SUBLAB_ID']);
+                unset($user_data['lab_id']);
+                unset($user_data['sublab_id']);
             }
             $user = (array) $user_data;
 

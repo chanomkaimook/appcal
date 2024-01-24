@@ -33,7 +33,7 @@ class Permit
 	 * @param integer|null $staff_id
 	 * @return array $result = [role_id,permit_id,permit_name]
 	 */
-	function get_dataPermitSet(int $staff_id = 0)
+	function get_dataPermitSet($staff_id = 0)
 	{
 		// variable for ban or allow
 		$permit_allow = [];

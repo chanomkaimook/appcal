@@ -1,4 +1,10 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE);
+error_reporting(0);
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+header('Access-Control-Allow-Credentials: true');
+
 include_once './vendor/autoload.php';
 /**
  * CodeIgniter
