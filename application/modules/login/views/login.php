@@ -58,8 +58,8 @@ if ($this->session->has_userdata('user_code')) {
                                             </a> -->
                                         </div>
                                         <div class="text-center">
-                                            <h2 class="text-uppercase mb-1  text-center"><?= $project->NAME; ?></h2>
-                                            <div class="small text-center"><?= $project->TITLE_NAME; ?></div>
+                                            <h2 class="text-uppercase mb-1  text-center"><?= $project->name; ?></h2>
+                                            <div class="small text-center"><?= $project->title_name; ?></div>
                                         </div>
                                     </div>
 
